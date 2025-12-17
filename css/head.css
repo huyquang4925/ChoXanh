@@ -4,9 +4,16 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
     padding-bottom: 100px;
 }
 
@@ -171,8 +178,7 @@ header {
     gap: 20px;
 }
 
-/* Register Section (2 cột) */
-.register-section {
+.ads-section {
     flex: 1;
     display: flex;
     align-items: center;
@@ -183,35 +189,18 @@ header {
     gap: 20px;
 }
 
-.register-text {
+.ads-text {
     color: #fff;
     font-size: 16px;
     font-weight: 600;
     white-space: nowrap;
 }
 
-.register-text span {
-    color: #f39c12;
-    font-size: 18px;
+.ads-text span {
+    font-size: 28px;
 }
-
-.register-btn {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: #fff;
-    padding: 12px 30px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 15px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-}
-
-.register-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.5);
-    background: linear-gradient(135deg, #c0392b, #e74c3c);
+.ads-text b {
+    color: #e74c3c;
 }
 
 /* Cart Button */
@@ -263,6 +252,48 @@ hr {
     display: none;
 }
 
+/* Auth Buttons Styles */
+.login-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.register-btn,
+.login-btn {
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.register-btn {
+    background: #e74c3c;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+}
+
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(103, 58, 183, 0.4);
+}
+
+.login-btn {
+    background: #e74c3c;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(103, 58, 183, 0.4);
+}   
+
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
     body {
@@ -272,12 +303,14 @@ hr {
     .header-top {
         flex-direction: column;
         gap: 20px;
+        padding-bottom: 15px; 
     }
 
     .menu {
         flex-wrap: wrap;
         width: 100%;
         border-radius: 8px;
+        order: 2;
     }
 
     .menu li {
@@ -317,4 +350,26 @@ hr {
         justify-content: center;
         padding: 12px 20px;
     }
+
+    .login-form {
+        order: 1;
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .register-btn,
+    .login-btn {
+        flex-grow: 1;
+        max-width: 150px;
+    }
+}
+
+.logo-link {
+    text-decoration: none;
+    color: inherit; 
+}
+
+.main-content-wrapper {
+    flex-grow: 1;
 }

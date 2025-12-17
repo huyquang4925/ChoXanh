@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="css/footer.css"> 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <footer>
     <div class="footer-container">
         <div class="footer-content">
@@ -46,13 +46,10 @@
                 <h3 class="footer-title">Theo dõi chúng tôi</h3>
                 <div class="social-links">
                     <a href="#" class="social-item facebook">
-                        <span>Facebook</span>
+                        <span><i class="fa-brands fa-facebook"></i> Facebook</span>
                     </a>
                     <a href="#" class="social-item youtube">
-                        <span>Youtube</span>
-                    </a>
-                    <a href="#" class="social-item zalo">
-                        <span>Zalo</span>
+                        <span><i class="fab fa-youtube"></i> Youtube</span>
                     </a>
                 </div>
                 
@@ -63,22 +60,22 @@
                 <h3 class="footer-title">Đối tác thanh toán</h3>
                 <div class="payment-partners">
                     <div class="partner-logo">
-                        <img src="https://via.placeholder.com/80x40/FFD700/000?text=Visa" alt="Visa">
+                        <img src="images/visa-logo.png" alt="Visa">
                     </div>
                     <div class="partner-logo">
-                        <img src="https://via.placeholder.com/80x40/FF5722/fff?text=Master" alt="Mastercard">
+                        <img src="images/mastercard-logo.png" alt="Mastercard">
                     </div>
                     <div class="partner-logo">
-                        <img src="https://via.placeholder.com/80x40/00BCD4/fff?text=JCB" alt="JCB">
+                        <img src="images/jcb-logo.png" alt="JCB">
                     </div>
                     <div class="partner-logo">
-                        <img src="https://via.placeholder.com/80x40/4CAF50/fff?text=Momo" alt="Momo">
+                        <img src="images/momo-logo.png" alt="Momo">
                     </div>
                     <div class="partner-logo">
-                        <img src="https://via.placeholder.com/80x40/2196F3/fff?text=ZaloPay" alt="ZaloPay">
+                        <img src="images/zalopay-logo.png" alt="ZaloPay">
                     </div>
                     <div class="partner-logo">
-                        <img src="https://via.placeholder.com/80x40/9C27B0/fff?text=VNPay" alt="VNPay">
+                        <img src="images/vnpay-logo.png" alt="VNPay">
                     </div>
                 </div>
             </div>
@@ -86,8 +83,8 @@
 
         <!-- Copyright -->
         <div class="footer-bottom">
-            <p>© 2025 Shop Tết - Chợ Xanh. Địa chỉ:123 TRIỀU KHÚC</p>
-            <p>GPĐKKD: 0303217354 do sở KH & ĐT TP.HCM cấp ngày 02/01/2007</p>
+            <p>2025 ©Shop Tết - Chợ Xanh</p>
+            <p> Địa chỉ: 123 TRIỀU KHÚC</p>
         </div>
     </div>
 </footer>

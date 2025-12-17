@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . 'config/db.php';
+require_once __DIR__ . '/../config/db.php';
 
 $sql = "SELECT id, name FROM categories";
 $result = $conn->query($sql);
@@ -25,7 +25,9 @@ while ($row = $result->fetch_assoc()) {
 <header>
     <div class="header-container">
         <div class="header-top">
-            <div class="logo">🎊 Shop Tết</div>
+            <a href="index.php" class="logo-link"> <!-- Thêm thẻ <a> ở đây -->
+                <div class="logo">🎊 Shop Tết</div>
+            </a> 
             
             <ul class="menu">
                 <?php 
@@ -41,45 +43,27 @@ while ($row = $result->fetch_assoc()) {
                             <?= htmlspecialchars($cat['name']) ?>
                         </a>
                     </li>
-                <?php endfor; ?>
-                
-                <!-- Nút tìm kiếm -->
-                <li class="search-item">
-                    <a href="index.php?page=search">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <path d="m21 21-4.35-4.35"></path>
-                        </svg>
-                        Tìm kiếm
-                    </a>
-                </li>
+                <?php endfor; ?>       
             </ul>
+
+            <!-- Auth Buttons -->
+            <div class="login-form">
+                <a href="index.php?page=register" class="register-btn">Đăng ký</a>
+                <a href="index.php?page=login" class="login-btn">Đăng nhập</a>
+            </div>
         </div>
     </div>
 </header>
 
-<!-- Bottom Bar - Đăng ký & Giỏ hàng -->
 <div class="bottom-bar">
     <div class="bottom-container">
-        <!-- Register Section -->
-        <div class="register-section">
-            <div class="register-text">
-                🎊 <span>Đăng ký ngay</span> để nhận ưu đãi đặc biệt!
+        <div class="ads-section">
+            <div class="ads-text">
+                <span>🔥 Siêu Sale Tết 2026 - Giảm đến <b>50%</b> tất cả sản phẩm! Mua ngay kẻo lỡ! 🔥</span>
             </div>
-            <a href="index.php?page=register" class="register-btn">
-                Đăng ký tại đây
-            </a>
         </div>
 
-        <!-- Cart Button -->
-        <a href="index.php?page=cart" class="cart-button">
-            <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
-            Giỏ hàng
-            <span class="cart-badge">0</span>
+        <a href="index.php?page=cart" class="cart-button"><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng<span class="cart-badge">0</span>
         </a>
     </div>
 </div>

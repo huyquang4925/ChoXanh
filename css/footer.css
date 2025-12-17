@@ -215,3 +215,11 @@ footer {
         align-items: center;
     }
 }
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 13px;
+    color: #95a5a6;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
