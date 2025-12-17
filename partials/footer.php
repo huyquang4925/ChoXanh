@@ -1,4 +1,5 @@
-<?php
+<link rel="stylesheet" href="css/footer.css"> 
+
 <footer>
     <div class="footer-container">
         <div class="footer-content">
@@ -90,5 +91,3 @@
         </div>
     </div>
 </footer>
-
-<link rel="stylesheet" href="../css/footer.css"> 

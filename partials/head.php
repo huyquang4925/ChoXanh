@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . 'config/db.php';
 
 $sql = "SELECT id, name FROM categories";
 $result = $conn->query($sql);
@@ -17,7 +17,7 @@ while ($row = $result->fetch_assoc()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop Tết - Chợ Xanh</title>
-    <link rel="stylesheet" href="../css/head.css">
+    <link rel="stylesheet" href="css/head.css">
 </head>
 <body>
 

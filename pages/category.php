@@ -23,7 +23,7 @@ $sql_products .= " ORDER BY p.created_at DESC";
 $products_result = $conn->query($sql_products);
 ?>
 
-<link rel="stylesheet" href="../css/category.css">
+<link rel="stylesheet" href="css/category.css">
 
 <div class="category-container">
     
