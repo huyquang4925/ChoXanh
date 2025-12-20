@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 $page = $_GET['page'] ?? 'home';
 
 // Danh sách các trang được phép
-$allowedPages = ['home', 'about', 'product', 'contact', 'news', 'category', 'search', 'register', 'login'];
+$allowedPages = ['home', 'about', 'product', 'contact', 'news', 'category', 'register', 'login', 'product_sua'];
 
 // Kiểm tra page có hợp lệ không
 if (!in_array($page, $allowedPages)) {
