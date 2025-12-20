@@ -44,7 +44,7 @@ if ($result_manufacturers && $result_manufacturers->num_rows > 0) {
 // Xử lý khi submit form
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
     $name = $conn->real_escape_string($_POST['name']);
-    $price = floatval($_POST['price']);
+    $price = intval($_POST['price']);
     $stock = intval($_POST['stock']);
     $description = $conn->real_escape_string($_POST['description']);
     $manufacturer_id = intval($_POST['manufacturer_id']);
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
             </div>
             <div class="form-group">
                 <label for="price">Giá:</label>
-                <input type="number" class="form-control" id="price" name="price" step="0.01" value="<?php echo htmlspecialchars($product['price']); ?>" required>
+               <input type="number" class="form-control" id="price" name="price" step="1" value="<?php echo (int)$product['price']; ?>" required>
             </div>
             <div class="form-group">
                 <label for="stock">Số lượng trong kho:</label>
