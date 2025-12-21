@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 $page = $_GET['page'] ?? 'home';
 
 // Danh sách các trang được phép
-$allowedPages = ['home', 'about', 'product', 'contact', 'news', 'category', 'register', 'login', 'product_sua'];
+$allowedPages = ['home', 'about', 'product', 'contact', 'news', 'category', 'register', 'login', 'product_sua', 'logout', 'product_del', 'product_add', 'admin_categories', 'category_add', 'category_edit', 'category_delete', 'admin_partners', 'partner_add', 'partner_edit', 'partner_delete', 'admin_staff', 'staff_add', 'staff_edit', 'staff_delete', 'admin_orders', 'order_view', 'cart', 'cart_add', 'cart_update', 'cart_remove'];
 
 // Kiểm tra page có hợp lệ không
 if (!in_array($page, $allowedPages)) {

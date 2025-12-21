@@ -1,4 +1,7 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include __DIR__ . '/../config/db.php';
 
 $product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -12,6 +15,8 @@ if ($product_id > 0) {
         $product = $result->fetch_assoc();
     }
 }
+
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 ?>
 
 <div class="container product-detail">
@@ -25,8 +30,15 @@ if ($product_id > 0) {
                 <p class="price"><?php echo htmlspecialchars(number_format($product['price'], 0)); ?>đ</p>
                 <p>Số lượng tồn kho: <?php echo htmlspecialchars($product['stock']); ?></p>
                 <p><?php echo htmlspecialchars($product['description']); ?></p>
-                <button class="btn btn-primary">Cho vào giỏ hàng</button>
+                <form method="post" action="index.php?page=cart_add" style="display:inline-block; margin-right:8px;">
+                    <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+                    <button class="btn btn-primary" type="submit">Cho vào giỏ hàng</button>
+                </form>
+
+                <?php if ($isAdmin): ?>
                     <a href="index.php?page=product_sua&id=<?php echo $product_id; ?>" class="btn btn-secondary ml-2">Sửa sản phẩm</a>
+                    <a href="index.php?page=product_del&id=<?php echo $product_id; ?>" class="btn btn-danger ml-2">Xóa sản phẩm</a>
+                <?php endif; ?>
             </div>
         </div>
     <?php else: ?>
@@ -35,6 +47,5 @@ if ($product_id > 0) {
 </div>
 
 <?php
-include __DIR__ . '/../partials/footer.php';
 $conn->close();
 ?>

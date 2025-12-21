@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2025 at 09:41 AM
+-- Generation Time: Dec 21, 2025 at 10:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -71,9 +71,7 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 (7, 'TV'),
 (8, 'Nồi Cơm'),
 (9, 'Điều hòa'),
-(10, 'phòng thu'),
-(11, '3'),
-(12, '4');
+(10, 'phòng thu');
 
 -- --------------------------------------------------------
 
@@ -84,16 +82,19 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 CREATE TABLE `nhasanxuat` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `description` text DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `nhasanxuat`
 --
 
-INSERT INTO `nhasanxuat` (`id`, `name`, `description`, `created_at`) VALUES
-(801, 'Nguyễn Trọng Tấn', 'Công ty 1 thành viên quần áo\r\n', '2025-12-17 14:19:00');
+INSERT INTO `nhasanxuat` (`id`, `name`, `description`) VALUES
+(2, 'An', 'An basement'),
+(3, 'Minh', 'Minh tồ'),
+(4, 'Cường', 'Tiểu Cường'),
+(5, 'Tuấn Anh', 'Em rank vàng'),
+(801, 'Tấn', 'Tấn campuchia');
 
 -- --------------------------------------------------------
 
@@ -151,29 +152,29 @@ CREATE TABLE `products` (
   `description` text DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `manufacturer_id` int(11) DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `category_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `price`, `stock`, `description`, `image`, `manufacturer_id`, `category_id`, `created_at`) VALUES
-(1001, 'quần thể thao', 90000.00, 49, 'quần thể thao XL', '432.jpg', 801, 1, '2025-12-17 15:00:18'),
-(1002, 'áo thể thoa XL màu trắng', 90000.00, 776, 'là áo thể thao ......', '432.jpg', 801, 1, '2025-12-17 15:02:01'),
-(1003, 'wqewqe', 90000.00, 49, 'ewqewqewqewqe', '432.jpg', 801, 1, '2025-12-17 15:02:55'),
-(1004, 'fsdfrgtrhrt', 90000.00, 56, 'sfhtutrhdfgag', '432.jpg', 801, 1, '2025-12-17 15:03:43'),
-(1005, 'vagshdfasj', 90000.00, 564, 'dgreytrhfs', '432.jpg', 801, 1, '2025-12-17 15:05:13'),
-(1006, 'sadsfsdffer', 90000.00, 768, 'fdgahtrhxgfhsdg', '432.jpg', 801, 1, '2025-12-17 15:06:06'),
-(1007, 'ewfsdfareg', 600000.00, 76, 'gdfgdfgergdzre', '432.jpg', 801, 1, '2025-12-17 15:09:21'),
-(4001, 'quần thể thao', 90000.00, 49, 'quần thể thao XL', '432.jpg', 801, 4, '2025-12-17 15:00:18'),
-(4002, 'áo thể thoa XL màu trắng', 90000.00, 776, 'là áo thể thao ......', '432.jpg', 801, 4, '2025-12-17 15:02:01'),
-(4003, 'wqewqe', 90000.00, 49, 'ewqewqewqewqe', '432.jpg', 801, 4, '2025-12-17 15:02:55'),
-(4004, 'fsdfrgtrhrt', 90000.00, 56, 'sfhtutrhdfgag', '432.jpg', 801, 4, '2025-12-17 15:03:43'),
-(4005, 'vagshdfasj', 90000.00, 564, 'dgreytrhfs', '432.jpg', 801, 4, '2025-12-17 15:05:13'),
-(4006, 'sadsfsdffer', 90000.00, 768, 'fdgahtrhxgfhsdg', '432.jpg', 801, 4, '2025-12-17 15:06:06'),
-(4007, 'ewfsdfareg', 600000.00, 76, 'gdfgdfgergdzre', '432.jpg', 801, 4, '2025-12-17 15:09:21');
+INSERT INTO `products` (`id`, `name`, `price`, `stock`, `description`, `image`, `manufacturer_id`, `category_id`) VALUES
+(1003, 'Chuột không dây Logitech', 450000.00, 49, 'Kết nối Wireless, độ nhạy cao', '432.jpg', 801, 1),
+(1004, 'Bàn phím cơ AKKO 3068', 1250000.00, 56, 'Switch gõ êm, đèn LED RGB', '432.jpg', 801, 1),
+(1005, 'Màn hình Dell UltraSharp', 6500000.00, 564, 'Độ phân giải 2K, màu sắc chuẩn đồ họa', '432.jpg', 801, 1),
+(1006, 'Ổ cứng SSD Samsung 500GB', 1100000.00, 768, 'Tốc độ đọc ghi cực nhanh', '432.jpg', 801, 1),
+(1007, 'Tai nghe Gaming HyperX', 1800000.00, 76, 'Âm thanh vòm 7.1 sống động', '432.jpg', 801, 1),
+(4001, 'Quần thể thao Nam', 90000.00, 49, 'quần thể thao XL', '432.jpg', 801, 4),
+(4002, 'Áo thể thao XL màu trắng', 90000.00, 776, 'là áo thể thao ......', '432.jpg', 801, 4),
+(4003, 'Áo khoác gió nhẹ', 150000.00, 49, 'Chống nắng và cản gió hiệu quả', '432.jpg', 801, 4),
+(4004, 'Tất thể thao cổ ngắn', 25000.00, 56, 'Combo 3 đôi tất cotton cao cấp', '432.jpg', 4, 4),
+(4005, 'Băng bảo vệ cổ tay', 45000.00, 564, 'Hỗ trợ bảo vệ khớp khi nâng tạ', '432.jpg', 801, 4),
+(4006, 'Bình nước thể thao 1L', 120000.00, 768, 'Nhựa BPA Free an toàn', '432.jpg', 801, 4),
+(4007, 'Thảm tập Yoga cao cấp', 600000.00, 76, 'Độ bám cao, chất liệu TPE', '432.jpg', 801, 4),
+(4018, 'ad', 1212423.00, 123, 'asd', '1766346816_8ff71621.jpg', 4, 2),
+(4020, 'asd', 123141.00, 1245, 'asddaw', '1766346944_ffea56d6.jpg', 3, 2),
+(4021, 'dsrgd', 23421.00, 2134, 'test', '1766347095_bbe8a49c.webp', 801, 3);
 
 -- --------------------------------------------------------
 
@@ -186,8 +187,7 @@ CREATE TABLE `reviews` (
   `user_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
   `rating` int(11) DEFAULT NULL CHECK (`rating` between 1 and 5),
-  `comment` text DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `comment` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -202,9 +202,18 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
-  `role` enum('admin','customer') DEFAULT 'customer',
-  `created_at` datetime DEFAULT current_timestamp()
+  `role` enum('admin','customer') DEFAULT 'customer'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `phone`, `role`) VALUES
+(1, 'admin', '1', NULL, NULL, 'admin'),
+(2, 'An', '2', NULL, NULL, 'customer'),
+(3, 'test', '123', 'an@gmail.com', NULL, 'customer'),
+(4, 'test2', '123', 'an2@gmail.com', NULL, 'customer');
 
 --
 -- Indexes for dumped tables
@@ -333,7 +342,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4008;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4023;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -345,7 +354,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

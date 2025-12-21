@@ -2,6 +2,12 @@
 $id = $_GET['id'] ?? 0;
 $search = $_GET['search'] ?? '';
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+
 // Lấy thông tin danh mục
 $sql = "SELECT name FROM categories WHERE id = $id";
 $result = $conn->query($sql);
@@ -19,7 +25,6 @@ if (!empty($search)) {
     $sql_products .= " AND (p.name LIKE '%$search_safe%' OR p.description LIKE '%$search_safe%')";
 }
 
-$sql_products .= " ORDER BY p.created_at DESC";
 $products_result = $conn->query($sql_products);
 ?>
 
@@ -33,7 +38,12 @@ $products_result = $conn->query($sql_products);
             <a href="index.php">Trang chủ</a> / 
             <span><?= htmlspecialchars($category['name'] ?? 'Không tồn tại') ?></span>
         </div>
-        <h1 class="category-title"><?= htmlspecialchars($category['name'] ?? 'Không tồn tại') ?></h1>
+        <div style="display:flex; align-items:center; gap:12px;">
+            <h1 class="category-title"><?= htmlspecialchars($category['name'] ?? 'Không tồn tại') ?></h1>
+            <?php if ($isAdmin): ?>
+                <a href="index.php?page=product_add&category_id=<?php echo intval($id); ?>" class="btn btn-success" style="font-size:14px; padding:6px 10px;">Thêm sản phẩm</a>
+            <?php endif; ?>
+        </div>
     </div>
 
     <!-- Search Toolbar -->
@@ -50,24 +60,14 @@ $products_result = $conn->query($sql_products);
                     placeholder="Tìm kiếm sản phẩm trong danh mục này..." 
                     value="<?= htmlspecialchars($search) ?>"
                 >
-                <button type="submit" class="search-btn">
-                    🔍 Tìm
-                </button>
+                <button type="submit" class="search-btn">🔍 Tìm</button>
             </div>
 
             <div class="filter-buttons">
-                <button type="button" class="filter-btn active" onclick="sortProducts('default')">
-                    Mặc định
-                </button>
-                <button type="button" class="filter-btn" onclick="sortProducts('price-asc')">
-                    Giá tăng dần
-                </button>
-                <button type="button" class="filter-btn" onclick="sortProducts('price-desc')">
-                    Giá giảm dần
-                </button>
-                <button type="button" class="filter-btn" onclick="sortProducts('newest')">
-                    Mới nhất
-                </button>
+                <button type="button" class="filter-btn active" onclick="sortProducts('default')">Mặc định</button>
+                <button type="button" class="filter-btn" onclick="sortProducts('price-asc')">Giá tăng dần</button>
+                <button type="button" class="filter-btn" onclick="sortProducts('price-desc')">Giá giảm dần</button>
+                <button type="button" class="filter-btn" onclick="sortProducts('newest')">Mới nhất</button>
             </div>
         </form>
     </div>
@@ -121,9 +121,10 @@ $products_result = $conn->query($sql_products);
                                 <?= number_format($product['price'], 0, ',', '.') ?>đ
                             </span>
                         </div>
-                        <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(<?= $product['id'] ?>)">
-                            🛒 Thêm vào giỏ
-                        </button>
+                        <form method="post" action="index.php?page=cart_add" style="display:inline;" onsubmit="event.stopPropagation();">
+                            <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                            <button class="add-to-cart-btn" type="submit">Thêm vào giỏ</button>
+                        </form>
                     </div>
                 </div>
             <?php endwhile; ?>
@@ -195,11 +196,5 @@ $products_result = $conn->query($sql_products);
     // View Product Detail
     function viewProduct(productId) {
         window.location.href = 'index.php?page=product&id=' + productId;
-    }
-
-    // Add to Cart
-    function addToCart(productId) {
-        // TODO: Implement add to cart logic
-        alert('Đã thêm sản phẩm ' + productId + ' vào giỏ hàng!');
     }
 </script>

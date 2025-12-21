@@ -45,11 +45,11 @@
             <div class="footer-column">
                 <h3 class="footer-title">Theo dõi chúng tôi</h3>
                 <div class="social-links">
-                    <a href="#" class="social-item facebook">
-                        <span><i class="fa-brands fa-facebook"></i> Facebook</span>
+                    <a href="#" class="social-item facebook" style="color: #ecf0f1 !important; text-decoration: none !important;">
+                        <span style="color: inherit; text-decoration: none;"><i class="fa-brands fa-facebook"></i> Facebook</span>
                     </a>
-                    <a href="#" class="social-item youtube">
-                        <span><i class="fab fa-youtube"></i> Youtube</span>
+                    <a href="#" class="social-item youtube" style="color: #ecf0f1 !important; text-decoration: none !important;">
+                        <span style="color: inherit; text-decoration: none;"><i class="fab fa-youtube"></i> Youtube</span>
                     </a>
                 </div>
             </div>

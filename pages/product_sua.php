@@ -32,12 +32,12 @@ if ($result_categories && $result_categories->num_rows > 0) {
     }
 }
 
-$manufacturers = [];
-$sql_manufacturers = "SELECT id, name FROM nhasanxuat";
-$result_manufacturers = $conn->query($sql_manufacturers);
-if ($result_manufacturers && $result_manufacturers->num_rows > 0) {
-    while ($row = $result_manufacturers->fetch_assoc()) {
-        $manufacturers[] = $row;
+$nhaSanXuats = [];
+$sql_nhaSanXuats = "SELECT id, name FROM nhasanxuat";
+$result_nhaSanXuats = $conn->query($sql_nhaSanXuats);
+if ($result_nhaSanXuats && $result_nhaSanXuats->num_rows > 0) {
+    while ($row = $result_nhaSanXuats->fetch_assoc()) {
+        $nhaSanXuats[] = $row;
     }
 }
 
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
     $price = intval($_POST['price']);
     $stock = intval($_POST['stock']);
     $description = $conn->real_escape_string($_POST['description']);
-    $manufacturer_id = intval($_POST['manufacturer_id']);
+    $nhaSanXuat_id = intval($_POST['nhaSanXuat_id']);
     $category_id = intval($_POST['category_id']);
 
     $image_name = $product['image'];
@@ -83,12 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
                        stock = $stock,
                        description = '$description',
                        image = '$image_name',
-                       manufacturer_id = $manufacturer_id,
+                       manufacturer_id = $nhaSanXuat_id,
                        category_id = $category_id
                        WHERE id = $product_id";
 
         if ($conn->query($sql_update) === TRUE) {
-            header('Location: index.php?page=product&id=' . $product_id);
+            echo "<script>window.location.href='index.php?page=product&id=$product_id';</script>";
             exit();
         } else {
             $message = 'Lỗi khi cập nhật sản phẩm: ' . $conn->error;
@@ -111,34 +111,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
         <form action="index.php?page=product_sua&id=<?php echo $product_id; ?>" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Tên sản phẩm:</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($product['name']); ?>" required>
+                <input type="text" class="form-control" id="name" name="name"
+                    value="<?php echo htmlspecialchars($product['name']); ?>" required>
             </div>
             <div class="form-group">
                 <label for="price">Giá:</label>
-               <input type="number" class="form-control" id="price" name="price" step="1" value="<?php echo (int)$product['price']; ?>" required>
+                <input type="number" class="form-control" id="price" name="price" step="1"
+                    value="<?php echo (int) $product['price']; ?>" required>
             </div>
             <div class="form-group">
                 <label for="stock">Số lượng trong kho:</label>
-                <input type="number" class="form-control" id="stock" name="stock" value="<?php echo htmlspecialchars($product['stock']); ?>" required>
+                <input type="number" class="form-control" id="stock" name="stock"
+                    value="<?php echo htmlspecialchars($product['stock']); ?>" required>
             </div>
             <div class="form-group">
                 <label for="description">Mô tả:</label>
-                <textarea class="form-control" id="description" name="description" rows="5"><?php echo htmlspecialchars($product['description']); ?></textarea>
+                <textarea class="form-control" id="description" name="description"
+                    rows="5"><?php echo htmlspecialchars($product['description']); ?></textarea>
             </div>
             <div class="form-group">
                 <label for="image">Ảnh sản phẩm:</label>
                 <?php if ($product['image']): ?>
-                   <img src="images/<?php echo htmlspecialchars($product['image']); ?>" alt="Product Image" style="max-width: 100px;">
+                    <img src="images/<?php echo htmlspecialchars($product['image']); ?>" alt="Product Image"
+                        style="max-width: 100px;">
                 <?php endif; ?>
                 <input type="file" class="form-control-file" id="image" name="image">
                 <small class="form-text text-muted">Chỉ tải lên nếu bạn muốn thay đổi ảnh.</small>
             </div>
             <div class="form-group">
-                <label for="manufacturer_id">Nhà sản xuất:</label>
-                <select class="form-control" id="manufacturer_id" name="manufacturer_id" required>
-                    <?php foreach ($manufacturers as $manufacturer): ?>
-                        <option value="<?php echo htmlspecialchars($manufacturer['id']); ?>" <?php echo ($manufacturer['id'] == $product['manufacturer_id']) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($manufacturer['name']); ?>
+                <label for="nhaSanXuat_id">Nhà sản xuất:</label>
+                <select class="form-control" id="nhaSanXuat_id" name="nhaSanXuat_id" required>
+                    <?php foreach ($nhaSanXuats as $nhaSanXuat): ?>
+                        <option value="<?php echo htmlspecialchars($nhaSanXuat['id']); ?>" <?php echo ($nhaSanXuat['id'] == $product['manufacturer_id']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($nhaSanXuat['name']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

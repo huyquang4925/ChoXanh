@@ -187,6 +187,15 @@ footer {
     height: 30px;
 }
 
+.social-item, .social-item * {
+    color: inherit;
+    text-decoration: none !important;
+}
+.social-item:hover, .social-item:hover * {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
 /* Responsive */
 @media (max-width: 992px) {
     .footer-content {
