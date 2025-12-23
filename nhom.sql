@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 21, 2025 at 10:05 PM
+-- Generation Time: Dec 24, 2025 at 12:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,6 +33,14 @@ CREATE TABLE `carts` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id`, `user_id`, `created_at`) VALUES
+(1, 1, '2025-12-22 04:12:53'),
+(2, 2, '2025-12-22 04:39:01');
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +53,16 @@ CREATE TABLE `cart_items` (
   `product_id` int(11) DEFAULT NULL,
   `quantity` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart_items`
+--
+
+INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`) VALUES
+(4, 1, 1005, 23),
+(7, 1, 4018, 1),
+(8, 1, 1003, 2),
+(12, 1, 4023, 1);
 
 -- --------------------------------------------------------
 
@@ -65,13 +83,10 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 (1, 'Máy tính'),
 (2, 'Tủ Lạnh'),
 (3, 'Máy ảnh'),
-(4, 'Quần áo'),
-(5, 'Nhà Đất'),
-(6, 'Xe Hơi'),
+(4, 'Thể thao'),
+(5, 'Biệt thự'),
 (7, 'TV'),
-(8, 'Nồi Cơm'),
-(9, 'Điều hòa'),
-(10, 'phòng thu');
+(14, 'test');
 
 -- --------------------------------------------------------
 
@@ -90,7 +105,7 @@ CREATE TABLE `nhasanxuat` (
 --
 
 INSERT INTO `nhasanxuat` (`id`, `name`, `description`) VALUES
-(2, 'An', 'An basement'),
+(2, 'An', 'Lee Wang An'),
 (3, 'Minh', 'Minh tồ'),
 (4, 'Cường', 'Tiểu Cường'),
 (5, 'Tuấn Anh', 'Em rank vàng'),
@@ -110,6 +125,17 @@ CREATE TABLE `orders` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `total_amount`, `status`, `created_at`) VALUES
+(1, 3, 1700000.00, 'paid', '2025-12-01 10:15:00'),
+(2, 2, 1200000.00, 'shipping', '2025-12-05 14:30:00'),
+(3, 4, 1100000.00, 'completed', '2025-11-20 09:00:00'),
+(4, 3, 295000.00, 'paid', '2025-12-18 16:45:00'),
+(5, 2, 1800000.00, 'cancelled', '2025-12-10 11:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -123,6 +149,19 @@ CREATE TABLE `order_items` (
   `quantity` int(11) DEFAULT NULL,
   `price` decimal(12,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`) VALUES
+(1, 1, 1003, 1, 450000.00),
+(2, 1, 1004, 1, 1250000.00),
+(3, 2, 4007, 2, 600000.00),
+(4, 3, 1006, 1, 1100000.00),
+(5, 4, 4001, 3, 90000.00),
+(6, 4, 4004, 1, 25000.00),
+(7, 5, 1007, 1, 1800000.00);
 
 -- --------------------------------------------------------
 
@@ -160,21 +199,27 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `stock`, `description`, `image`, `manufacturer_id`, `category_id`) VALUES
-(1003, 'Chuột không dây Logitech', 450000.00, 49, 'Kết nối Wireless, độ nhạy cao', '432.jpg', 801, 1),
-(1004, 'Bàn phím cơ AKKO 3068', 1250000.00, 56, 'Switch gõ êm, đèn LED RGB', '432.jpg', 801, 1),
-(1005, 'Màn hình Dell UltraSharp', 6500000.00, 564, 'Độ phân giải 2K, màu sắc chuẩn đồ họa', '432.jpg', 801, 1),
-(1006, 'Ổ cứng SSD Samsung 500GB', 1100000.00, 768, 'Tốc độ đọc ghi cực nhanh', '432.jpg', 801, 1),
-(1007, 'Tai nghe Gaming HyperX', 1800000.00, 76, 'Âm thanh vòm 7.1 sống động', '432.jpg', 801, 1),
-(4001, 'Quần thể thao Nam', 90000.00, 49, 'quần thể thao XL', '432.jpg', 801, 4),
-(4002, 'Áo thể thao XL màu trắng', 90000.00, 776, 'là áo thể thao ......', '432.jpg', 801, 4),
-(4003, 'Áo khoác gió nhẹ', 150000.00, 49, 'Chống nắng và cản gió hiệu quả', '432.jpg', 801, 4),
-(4004, 'Tất thể thao cổ ngắn', 25000.00, 56, 'Combo 3 đôi tất cotton cao cấp', '432.jpg', 4, 4),
-(4005, 'Băng bảo vệ cổ tay', 45000.00, 564, 'Hỗ trợ bảo vệ khớp khi nâng tạ', '432.jpg', 801, 4),
-(4006, 'Bình nước thể thao 1L', 120000.00, 768, 'Nhựa BPA Free an toàn', '432.jpg', 801, 4),
-(4007, 'Thảm tập Yoga cao cấp', 600000.00, 76, 'Độ bám cao, chất liệu TPE', '432.jpg', 801, 4),
-(4018, 'ad', 1212423.00, 123, 'asd', '1766346816_8ff71621.jpg', 4, 2),
-(4020, 'asd', 123141.00, 1245, 'asddaw', '1766346944_ffea56d6.jpg', 3, 2),
-(4021, 'dsrgd', 23421.00, 2134, 'test', '1766347095_bbe8a49c.webp', 801, 3);
+(1003, 'Chuột không dây Logitech', 450000.00, 49, 'Kết nối Wireless, độ nhạy cao', 'wireless_mouse.jpg', 801, 1),
+(1004, 'Bàn phím cơ AKKO 3068', 1250000.00, 56, 'Switch gõ êm, đèn LED RGB', 'keyboard_test.jpg', 801, 1),
+(1005, 'Màn hình Dell UltraSharp', 6500000.00, 564, 'Độ phân giải 2K, màu sắc chuẩn đồ họa', 'monitor_test.jpg', 801, 1),
+(1006, 'Ổ cứng SSD Samsung 500GB', 1100000.00, 768, 'Tốc độ đọc ghi cực nhanh', 'ssd_test.jpg', 801, 1),
+(1007, 'Tai nghe Gaming HyperX', 1800000.00, 76, 'Âm thanh vòm 7.1 sống động', 'headphone_test.png', 801, 1),
+(4001, 'Quần thể thao Nam', 90000.00, 49, 'quần thể thao XL', 'pant_test.jpg', 801, 4),
+(4002, 'Áo thể thao XL màu trắng', 90000.00, 776, 'là áo thể thao ......', 'shirt_test.jpg', 801, 4),
+(4003, 'Áo khoác gió nhẹ', 150000.00, 49, 'Chống nắng và cản gió hiệu quả', 'coat_test.jpg', 801, 4),
+(4004, 'Tất thể thao cổ ngắn', 25000.00, 56, 'Combo 3 đôi tất cotton cao cấp', 'sock_test.jpg', 4, 4),
+(4005, 'Băng bảo vệ cổ tay', 45000.00, 564, 'Hỗ trợ bảo vệ khớp khi nâng tạ', 'protect_wrist_test.jpg', 801, 4),
+(4006, 'Bình nước thể thao 1L', 120000.00, 768, 'Nhựa BPA Free an toàn', 'water_test.jpg', 801, 4),
+(4007, 'Thảm tập Yoga cao cấp', 600000.00, 76, 'Độ bám cao, chất liệu TPE', 'carpet_test.jpg', 801, 4),
+(4018, 'ad', 1212423.00, 123, 'asd', '1766346816_8ff71621.jpg', 4, 14),
+(4020, 'asd', 123141.00, 1245, 'asddaw', '1766346944_ffea56d6.jpg', 3, 14),
+(4021, 'dsrgd', 23421.00, 2134, 'test', '1766347095_bbe8a49c.webp', 801, 14),
+(4023, 'Tủ lạnh LG', 10000000.00, 22, '1 cái tủ lạnh', '1766522938_17686b8b.jpg', 2, 2),
+(4024, 'Tủ lạnh Hitachi', 31999999.00, 312, 'vẫn là tủ lạnh nhưng màu đen', '1766523002_2b77d7aa.jpg', 2, 2),
+(4025, 'Canon EOS R10 Kit', 1012830178.00, 23, '1 cái máy ảnh khá là đắt', '1766523106_f4c9fd78.png', 2, 3),
+(4026, 'Sony Alpha a6400 kit', 100000.00, 1231, 'rẻ', '1766523161_8f6bf6a5.jpg', 2, 3),
+(4027, 'Nhà của Tấn', 9999999999.99, 1, 'hẳn 1 cái biệt thự', '1766523350_d34110d6.jpg', 801, 5),
+(4028, '55″ 4K Ultra HD Smart TV | 55GM6141E', 60000000.00, 3, '1 cái TV để xem(hoặc trưng bày)', '1766523647_5daab078.jpg', 2, 7);
 
 -- --------------------------------------------------------
 
@@ -210,10 +255,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `phone`, `role`) VALUES
-(1, 'admin', '1', NULL, NULL, 'admin'),
-(2, 'An', '2', NULL, NULL, 'customer'),
-(3, 'test', '123', 'an@gmail.com', NULL, 'customer'),
-(4, 'test2', '123', 'an2@gmail.com', NULL, 'customer');
+(1, 'admin', '1', '', '', 'admin'),
+(2, 'An', '2', 'an5@gmail.com', '', 'customer'),
+(3, 'test', '123', 'an@gmail.com', '', 'customer'),
+(4, 'test2', '123', 'an2@gmail.com', '', 'customer'),
+(5, 'An2', '123', 'an8@gmail.com', '0766432452', 'customer');
 
 --
 -- Indexes for dumped tables
@@ -300,19 +346,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `nhasanxuat`
@@ -324,13 +370,13 @@ ALTER TABLE `nhasanxuat`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -342,7 +388,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4023;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4029;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -354,7 +400,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
