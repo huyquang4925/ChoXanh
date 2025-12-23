@@ -59,8 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
 
         $check = getimagesize($_FILES['image']['tmp_name']);
         if ($check !== false) {
-            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-                $message = "Chỉ cho phép JPG, JPEG, PNG & GIF.";
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                $message = "Chỉ cho phép JPG, JPEG, PNG.";
                 $message_type = 'danger';
             } else {
                 if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {

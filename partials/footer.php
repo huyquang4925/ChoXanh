@@ -33,11 +33,11 @@
             <div class="footer-column">
                 <h3 class="footer-title">Giới thiệu</h3>
                 <ul class="footer-links">
-                    <li><a href="index.php?page=about">Về công ty</a></li>
-                    <li><a href="index.php?page=recruitment">Tuyển dụng</a></li>
-                    <li><a href="index.php?page=news">Tin tức</a></li>
-                    <li><a href="index.php?page=stores">Hệ thống cửa hàng</a></li>
-                    <li><a href="index.php?page=contact">Liên hệ hợp tác</a></li>
+                    <li><a href="index.php?page=about_us">Về công ty</a></li>
+                    <li><a href="#">Tuyển dụng</a></li>
+                    <li><a href="#">Tin tức</a></li>
+                    <li><a href="#">Hệ thống cửa hàng</a></li>
+                    <li><a href="#">Liên hệ hợp tác</a></li>
                 </ul>
             </div>
 

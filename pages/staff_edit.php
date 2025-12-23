@@ -45,7 +45,7 @@ $user = $res->fetch_assoc();
     <form method="POST" style="max-width:700px;">
         <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" name="username" id="username" class="form-control" required value="<?php echo htmlspecialchars($_POST['username'] ?? $user['username']) ?>">
+            <input type="text" name="username" id="username" class="form-control" required value="<?php echo htmlspecialchars($_POST['username'] ?? $user['username'] ?? '') ?>">
         </div>
         <div class="form-group">
             <label for="password">Mật khẩu (để trống nếu không đổi)</label>
@@ -53,11 +53,11 @@ $user = $res->fetch_assoc();
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control" value="<?php echo htmlspecialchars($_POST['email'] ?? $user['email']) ?>">
+            <input type="email" name="email" id="email" class="form-control" value="<?php echo htmlspecialchars($_POST['email'] ?? $user['email'] ?? '') ?>">
         </div>
         <div class="form-group">
             <label for="phone">Phone</label>
-            <input type="text" name="phone" id="phone" class="form-control" value="<?php echo htmlspecialchars($_POST['phone'] ?? $user['phone']) ?>">
+            <input type="text" name="phone" id="phone" class="form-control" value="<?php echo htmlspecialchars($_POST['phone'] ?? $user['phone'] ?? '') ?>">
         </div>
         <div class="form-group">
             <label for="role">Role</label>
