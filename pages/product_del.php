@@ -14,21 +14,31 @@ $res = $conn->query($sql);
 $product = $res->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Xóa ảnh nếu có
-    if (!empty($product['image'])) {
-        $imagePath = __DIR__ . '/../images/' . $product['image'];
-        if (file_exists($imagePath)) {
-            @unlink($imagePath);
-        }
-    }
+    $conn->begin_transaction();
+    try {
+        $conn->query("DELETE FROM cart_items WHERE product_id = " . intval($product_id));
 
-    // Xóa bản ghi
-    $sqlDelete = "DELETE FROM products WHERE id = $product_id";
-    if ($conn->query($sqlDelete) === TRUE) {
+        $conn->query("DELETE FROM order_items WHERE product_id = " . intval($product_id));
+
+        if (!empty($product['image'])) {
+            $imagePath = __DIR__ . '/../images/' . $product['image'];
+            if (file_exists($imagePath)) {
+                @unlink($imagePath);
+            }
+        }
+
+        // Xóa sản phẩm
+        $sqlDelete = "DELETE FROM products WHERE id = " . intval($product_id);
+        if ($conn->query($sqlDelete) !== TRUE) {
+            throw new Exception($conn->error);
+        }
+
+        $conn->commit();
         echo "<script>window.location.href='index.php';</script>";
         exit();
-    } else {
-        $error = 'Lỗi khi xóa sản phẩm: ' . $conn->error;
+    } catch (Exception $e) {
+        $conn->rollback();
+        $error = 'Lỗi khi xóa sản phẩm: ' . $e->getMessage();
     }
 }
 ?>
