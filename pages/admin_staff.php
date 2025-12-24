@@ -13,8 +13,8 @@ $res = $conn->query($sql);
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Quản lý Nhân viên</h3>
-        <a href="index.php?page=staff_add" class="btn btn-success">Thêm nhân viên</a>
+        <h3>Quản lý Người dùng</h3>
+        <a href="index.php?page=staff_add" class="btn btn-success">Thêm người dùng</a>
     </div>
 
     <?php if ($res && $res->num_rows > 0): ?>

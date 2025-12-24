@@ -103,7 +103,7 @@ if (isset($_SESSION['user_id'])) {
                                 </a>
                                 <a href="index.php?page=admin_staff">
                                     <div class="icon-circle"><i class="fas fa-users-cog"></i></div>
-                                    <span>Quản lý Nhân viên</span>
+                                    <span>Quản lý Người dùng</span>
                                 </a>
                                 <a href="index.php?page=admin_orders">
                                     <div class="icon-circle"><i class="fas fa-receipt"></i></div>
