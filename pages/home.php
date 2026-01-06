@@ -56,9 +56,9 @@
 </style>
 
 
-<div class="home-container">
+<!-- <div class="home-container">
     <h2>Nhóm</h2>
     <div class="mt-3">
         <a href="index.php?page=about_us" class="btn-view-team">Xem nhóm</a>
     </div>
-</div>
+</div> -->
