@@ -74,7 +74,7 @@ $total_pages = ceil($total_products / $limit);
     </div>
 
     <!-- Featured Products -->
-    <h2 class="section-title">🔥 Sản phẩm nổi bật</h2>
+    <h2 class="section-title"> Sản phẩm nổi bật</h2>
     <div class="categories-wrapper">
         <div class="category-banner">
             <img src="images/fridge_test.jpg" alt="Banner Điện tử - Điện lạnh">
