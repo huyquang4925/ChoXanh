@@ -1,17 +1,24 @@
 <?php
 // Lấy danh mục
-$sql_categories = "SELECT * FROM categories ";
+$limit = 9; 
+$page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+$page = max($page, 1);
+$offset = ($page - 1) * $limit;
+$sql_categories = "SELECT * FROM categories LIMIT 6";
 $categories_result = $conn->query($sql_categories);
 
-// Lấy sản phẩm ngẫu nhiên
-$sql_products = "SELECT p.*, c.name as category_name 
-                 FROM products p 
-                 LEFT JOIN categories c ON p.category_id = c.id 
-                 ORDER BY RAND() 
-                 ";
+// Lấy sản phẩm
+$sql_products = "
+    SELECT p.*, c.name AS category_name
+    FROM products p
+    LEFT JOIN categories c ON p.category_id = c.id
+    ORDER BY p.id DESC
+    LIMIT $limit OFFSET $offset
+";
+
 $products_result = $conn->query($sql_products);
 
-// Chia sản phẩm thành 2 phần
+// Lấy sản phẩm
 $products = [];
 if ($products_result) {
     while ($row = $products_result->fetch_assoc()) {
@@ -19,15 +26,20 @@ if ($products_result) {
     }
 }
 
-$featured_products = array_slice($products, 0, 9);
-$new_products = array_slice($products, 9, 9);
+$featured_products = $products; // Hiển thị sản phẩm theo trang
+
+// Tính tổng số sản phẩm để phân trang
+$total_result = $conn->query("SELECT COUNT(*) AS total FROM products");
+$total_row = $total_result->fetch_assoc();
+$total_products = $total_row['total'];
+
+$total_pages = ceil($total_products / $limit);
 ?>
 
 <style>
     .home-container {
         max-width: 1900px;
         margin: 0 auto;
-        
         padding: 20px;
     }
 
@@ -148,26 +160,26 @@ $new_products = array_slice($products, 9, 9);
         font-size: 14px;
         font-weight: 600;
     }
+    
     .categories-wrapper {
-    display: grid;
-    grid-template-columns: 2fr 8fr;
-    gap: 20px;
-    margin-bottom: 50px;
+        display: grid;
+        grid-template-columns: 2fr 8fr;
+        gap: 20px;
+        margin-bottom: 50px;
     }
+    
     .category-banner {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,.1);
-}
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,.1);
+    }
 
     .category-banner img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
-
-
 
     /* Products Grid */
     .products-grid {
@@ -314,30 +326,61 @@ $new_products = array_slice($products, 9, 9);
         transform: scale(1.02);
     }
 
-    /* Banner Mid */
-    .banner-mid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        margin: 50px 0;
-    }
-
-    .banner-mid-item {
-        height: 200px;
-        border-radius: 12px;
+    /* Pagination */
+    .pagination {
         display: flex;
-        align-items: center;
         justify-content: center;
-        color: #fff;
-        font-size: 24px;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        cursor: pointer;
-        transition: all 0.3s ease;
+        align-items: center;
+        gap: 8px;
+        margin: 40px 0;
+        flex-wrap: wrap;
     }
 
-    .banner-mid-item:hover {
-        transform: scale(1.02);
+    .pagination a {
+        padding: 10px 16px;
+        border-radius: 8px;
+        background: #fff;
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: 600;
+        border: 2px solid #ecf0f1;
+        transition: all 0.3s ease;
+        min-width: 44px;
+        text-align: center;
+    }
+
+    .pagination a:hover {
+        background: #e74c3c;
+        color: #fff;
+        border-color: #e74c3c;
+        transform: translateY(-2px);
+    }
+
+    .pagination a.active {
+        background: #e74c3c;
+        color: #fff;
+        border-color: #e74c3c;
+        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+    }
+
+    .pagination a.disabled {
+        background: #ecf0f1;
+        color: #bdc3c7;
+        cursor: not-allowed;
+        border-color: #ecf0f1;
+    }
+
+    .pagination a.disabled:hover {
+        background: #ecf0f1;
+        color: #bdc3c7;
+        border-color: #ecf0f1;
+        transform: none;
+    }
+
+    .pagination .page-info {
+        padding: 10px 16px;
+        color: #7f8c8d;
+        font-size: 14px;
     }
 
     /* Responsive */
@@ -372,8 +415,13 @@ $new_products = array_slice($products, 9, 9);
             width: 100%;
             height: 200px;
         }
-        .banner-mid {
-            grid-template-columns: 1fr;
+        .pagination {
+            gap: 5px;
+        }
+        .pagination a {
+            padding: 8px 12px;
+            font-size: 14px;
+            min-width: 38px;
         }
     }
 
@@ -387,31 +435,33 @@ $new_products = array_slice($products, 9, 9);
         .products-grid {
             grid-template-columns: 1fr;
         }
+        .pagination a {
+            padding: 6px 10px;
+            font-size: 13px;
+            min-width: 34px;
+        }
     }
 </style>
 
- <div class="banner-slider">
-        <div class="banner-slide active">
-            <img src="images/mansion_test.jpg" alt="Máy lạnh giảm sốc">
-        </div>
-        <div class="banner-slide">
-            <img src="images/mansion_test.jpg" alt="Máy lạnh LG Inverter">
-        </div>
-        <div class="banner-slide">
-            <img src="images/mansion_test.jpg" alt="Mua Panasonic trúng xe điện">
-        </div>
-        
-        <div class="banner-dots">
-            <span class="dot active" onclick="currentSlide(0)"></span>
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-        </div>
+<div class="banner-slider">
+    <div class="banner-slide active">
+        <img src="images/mansion_test.jpg" alt="Máy lạnh giảm sốc">
     </div>
-<div class="home-container">
+    <div class="banner-slide">
+        <img src="images/mansion_test.jpg" alt="Máy lạnh LG Inverter">
+    </div>
+    <div class="banner-slide">
+        <img src="images/mansion_test.jpg" alt="Mua Panasonic trúng xe điện">
+    </div>
     
-    
-   
+    <div class="banner-dots">
+        <span class="dot active" onclick="currentSlide(0)"></span>
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+    </div>
+</div>
 
+<div class="home-container">
     <!-- Categories Section -->
     <h2 class="section-title">Danh mục nổi bật</h2>
     <div class="categories-grid">
@@ -431,76 +481,115 @@ $new_products = array_slice($products, 9, 9);
     <!-- Featured Products -->
     <h2 class="section-title">🔥 Sản phẩm nổi bật</h2>
     <div class="categories-wrapper">
-
-
         <div class="category-banner">
             <img src="images/fridge_test.jpg" alt="Banner Điện tử - Điện lạnh">
         </div>
-    <div class="products-grid">
-        <?php 
-        if (count($featured_products) > 0):
-            foreach($featured_products as $product): 
-                $discount = rand(20, 50);
-                $original_price = $product['price'];
-                $discounted_price = $original_price * (100 - $discount) / 100;
-        ?>
-            <div class="product-card" onclick="viewProduct(<?= $product['id'] ?>)">
-                <div class="product-badge">-<?= $discount ?>%</div>
-                
-                <?php if ($product['stock'] > 0): ?>
-                    <div class="stock-badge <?= $product['stock'] < 10 ? 'low' : '' ?>">
-                        Còn <?= $product['stock'] ?> SP
-                    </div>
-                <?php endif; ?>
-
-                <div class="product-image">
-                    <?php if (!empty($product['image'])): ?>
-                        <img src="images/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
-                    <?php else: ?>
-                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #fff;">
-                            Không có ảnh
+        
+        <div class="products-grid">
+            <?php 
+            if (count($featured_products) > 0):
+                foreach($featured_products as $product): 
+                    $discount = rand(20, 50);
+                    $original_price = $product['price'];
+                    $discounted_price = $original_price * (100 - $discount) / 100;
+            ?>
+                <div class="product-card" onclick="viewProduct(<?= $product['id'] ?>)">
+                    <div class="product-badge">-<?= $discount ?>%</div>
+                    
+                    <?php if ($product['stock'] > 0): ?>
+                        <div class="stock-badge <?= $product['stock'] < 10 ? 'low' : '' ?>">
+                            Còn <?= $product['stock'] ?> SP
                         </div>
                     <?php endif; ?>
-                </div>
 
-                <div class="product-info">
-                    <div class="product-name"><?= htmlspecialchars($product['name']) ?></div>
-                    <div class="product-price">
-                        <span class="price-new"><?= number_format($discounted_price, 0, ',', '.') ?>đ</span>
-                        <span class="price-old"><?= number_format($original_price, 0, ',', '.') ?>đ</span>
+                    <div class="product-image">
+                        <?php if (!empty($product['image'])): ?>
+                            <img src="images/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                        <?php else: ?>
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #fff;">
+                                Không có ảnh
+                            </div>
+                        <?php endif; ?>
                     </div>
-                    <form method="post" action="index.php?page=cart_add" style="display:inline;" onsubmit="event.stopPropagation();">
-                        <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                        <button class="add-to-cart-btn" type="submit">🛒 Thêm vào giỏ</button>
-                    </form>
-                </div>
-            </div>
-        <?php 
-            endforeach;
-        else:
-            for($i = 1; $i <= 8; $i++): 
-        ?>
-            <div class="product-card">
-                <div class="product-badge">-<?= rand(20, 50) ?>%</div>
-                <div class="product-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; display: flex; align-items: center; justify-content: center;">
-                    Sản phẩm <?= $i ?>
-                </div>
-                <div class="product-info">
-                    <div class="product-name">Tên sản phẩm <?= $i ?> - Mô tả ngắn</div>
-                    <div class="product-price">
-                        <span class="price-new"><?= number_format(rand(100000, 500000)) ?>đ</span>
-                        <span class="price-old"><?= number_format(rand(600000, 1000000)) ?>đ</span>
+
+                    <div class="product-info">
+                        <div class="product-name"><?= htmlspecialchars($product['name']) ?></div>
+                        <div class="product-price">
+                            <span class="price-new"><?= number_format($discounted_price, 0, ',', '.') ?>đ</span>
+                            <span class="price-old"><?= number_format($original_price, 0, ',', '.') ?>đ</span>
+                        </div>
+                        <form method="post" action="index.php?page=cart_add" style="display:inline;" onsubmit="event.stopPropagation();">
+                            <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                            <button class="add-to-cart-btn" type="submit">🛒 Thêm vào giỏ</button>
+                        </form>
                     </div>
-                    <button class="add-to-cart-btn">🛒 Thêm vào giỏ</button>
                 </div>
-            </div>
-        <?php 
-            endfor;
-        endif;
-        ?>
+            <?php 
+                endforeach;
+            else:
+            ?>
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #7f8c8d;">
+                    <p style="font-size: 18px;">Không có sản phẩm nào</p>
+                </div>
+            <?php
+            endif;
+            ?>
+        </div>
     </div>
 
-    </div>
+    <!-- Pagination -->
+    <?php if ($total_pages > 1): ?>
+        <div class="pagination">
+            <!-- Previous Button -->
+            <?php if ($page > 1): ?>
+                <a href="index.php?page=home&p=<?= $page - 1 ?>">← Trước</a>
+            <?php else: ?>
+                <a href="#" class="disabled">← Trước</a>
+            <?php endif; ?>
+
+            <!-- Page Numbers -->
+            <?php
+            // Hiển thị tối đa 7 trang
+            $range = 2; // Số trang hiển thị mỗi bên
+            $start = max(1, $page - $range);
+            $end = min($total_pages, $page + $range);
+
+            // Trang đầu
+            if ($start > 1): ?>
+                <a href="index.php?page=home&p=1">1</a>
+                <?php if ($start > 2): ?>
+                    <span class="page-info">...</span>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <!-- Các trang ở giữa -->
+            <?php for ($i = $start; $i <= $end; $i++): ?>
+                <a href="index.php?page=home&p=<?= $i ?>" class="<?= $i == $page ? 'active' : '' ?>">
+                    <?= $i ?>
+                </a>
+            <?php endfor; ?>
+
+            <!-- Trang cuối -->
+            <?php if ($end < $total_pages): ?>
+                <?php if ($end < $total_pages - 1): ?>
+                    <span class="page-info">...</span>
+                <?php endif; ?>
+                <a href="index.php?page=home&p=<?= $total_pages ?>"><?= $total_pages ?></a>
+            <?php endif; ?>
+
+            <!-- Next Button -->
+            <?php if ($page < $total_pages): ?>
+                <a href="index.php?page=home&p=<?= $page + 1 ?>">Sau →</a>
+            <?php else: ?>
+                <a href="#" class="disabled">Sau →</a>
+            <?php endif; ?>
+
+            <!-- Page Info -->
+            <span class="page-info">
+                Trang <?= $page ?>/<?= $total_pages ?> (<?= $total_products ?> sản phẩm)
+            </span>
+        </div>
+    <?php endif; ?>
 </div>
 
 <script>
@@ -533,5 +622,10 @@ $new_products = array_slice($products, 9, 9);
     // View Product Detail
     function viewProduct(productId) {
         window.location.href = 'index.php?page=product&id=' + productId;
+    }
+
+    // Scroll to top when changing page
+    if (window.location.search.includes('p=')) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 </script>
