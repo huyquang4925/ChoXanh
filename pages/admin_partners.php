@@ -7,6 +7,9 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     return;
 }
 
+// Lấy ID để xem chi tiết (nếu có)
+$detail_id = isset($_GET['detail']) ? intval($_GET['detail']) : 0;
+
 // Lấy danh sách nhà sản xuất
 $sql = "SELECT n.id, n.name, n.description, COUNT(p.id) as product_count
         FROM nhasanxuat n
@@ -14,6 +17,32 @@ $sql = "SELECT n.id, n.name, n.description, COUNT(p.id) as product_count
         GROUP BY n.id, n.name, n.description
         ORDER BY n.id DESC";
 $res = $conn->query($sql);
+
+// Nếu có detail_id, lấy sản phẩm của nhà sản xuất đó
+$detail_products = [];
+$detail_name = '';
+if ($detail_id > 0) {
+    $sql_detail = "SELECT name FROM nhasanxuat WHERE id = ?";
+    $stmt = $conn->prepare($sql_detail);
+    $stmt->bind_param('i', $detail_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $detail_name = $row['name'];
+    }
+    
+    $sql_products = "SELECT id, name, price, stock, image, description 
+                     FROM products 
+                     WHERE manufacturer_id = ? 
+                     ORDER BY id DESC";
+    $stmt2 = $conn->prepare($sql_products);
+    $stmt2->bind_param('i', $detail_id);
+    $stmt2->execute();
+    $products_result = $stmt2->get_result();
+    while ($p = $products_result->fetch_assoc()) {
+        $detail_products[] = $p;
+    }
+}
 ?>
 
 <style>
@@ -83,6 +112,15 @@ $res = $conn->query($sql);
     background: #c0392b;
 }
 
+.btn-secondary {
+    background: #95a5a6;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
 .btn-sm {
     padding: 6px 12px;
     font-size: 14px;
@@ -148,63 +186,33 @@ tbody td {
     border: 1px solid #f5c6cb;
 }
 
-/* Modal for Product Details */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    overflow: auto;
-}
-
-.modal.show {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
+/* Detail Box */
+.detail-box {
     background: #fff;
     border-radius: 12px;
-    max-width: 900px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    margin-bottom: 30px;
+    overflow: hidden;
 }
 
-.modal-header {
+.detail-header {
+    background: #34495e;
+    color: #fff;
     padding: 20px 30px;
-    border-bottom: 1px solid #ecf0f1;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #34495e;
-    color: #fff;
-    border-radius: 12px 12px 0 0;
 }
 
-.modal-title {
+.detail-title {
     font-size: 24px;
     font-weight: bold;
 }
 
-.close {
-    font-size: 32px;
-    cursor: pointer;
-    color: #fff;
-    line-height: 1;
-}
-
-.close:hover {
-    color: #e74c3c;
-}
-
-.modal-body {
+.detail-body {
     padding: 30px;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 .product-item {
@@ -261,135 +269,104 @@ tbody td {
     color: #7f8c8d;
     font-size: 16px;
 }
+
+.back-button {
+    margin-bottom: 20px;
+}
 </style>
 
 <div class="container">
-    <div class="page-header">
-        <h1 class="page-title">Quản lý Đối tác</h1>
-        <a href="index.php?page=partner_add" class="btn btn-success">+ Thêm Đối tác</a>
-    </div>
-
-    <!-- Table -->
-    <div class="table-container">
-        <?php if ($res && $res->num_rows > 0): ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên</th>
-                        <th>Mô tả</th>
-                        <th>Số sản phẩm</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $res->fetch_assoc()): ?>
-                        <tr>
-                            <td><?= $row['id'] ?></td>
-                            <td><?= htmlspecialchars($row['name']) ?></td>
-                            <td><?= htmlspecialchars($row['description']) ?></td>
-                            <td><?= $row['product_count'] ?></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-sm btn-info" onclick="viewDetails(<?= $row['id'] ?>, '<?= htmlspecialchars($row['name'], ENT_QUOTES) ?>')">Chi tiết</button>
-                                    <a href="index.php?page=partner_edit&id=<?= $row['id'] ?>" class="btn btn-sm btn-primary">Sửa</a>
-                                    <a href="index.php?page=partner_delete&id=<?= $row['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Xác nhận xóa?')">Xóa</a>
+    
+    <?php if ($detail_id > 0): ?>
+        <!-- Detail View -->
+        <div class="back-button">
+            <a href="index.php?page=admin_partners" class="btn btn-secondary">← Quay lại danh sách</a>
+        </div>
+        
+        <div class="detail-box">
+            <div class="detail-header">
+                <h2 class="detail-title">Sản phẩm của <?= htmlspecialchars($detail_name) ?></h2>
+                <span style="font-size: 16px;"><?= count($detail_products) ?> sản phẩm</span>
+            </div>
+            <div class="detail-body">
+                <?php if (count($detail_products) > 0): ?>
+                    <?php foreach ($detail_products as $product): 
+                        $totalValue = $product['price'] * $product['stock'];
+                    ?>
+                        <div class="product-item">
+                            <?php if (!empty($product['image'])): ?>
+                                <img src="images/<?= htmlspecialchars($product['image']) ?>" 
+                                     alt="<?= htmlspecialchars($product['name']) ?>" 
+                                     class="product-image">
+                            <?php else: ?>
+                                <div class="product-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; font-size: 12px;">
+                                    Không có ảnh
                                 </div>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <div class="alert alert-info">Chưa có đối tác nào.</div>
-        <?php endif; ?>
-    </div>
-</div>
-
-<!-- Modal for Product Details -->
-<div id="productModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title" id="modalTitle">Chi tiết sản phẩm</h3>
-            <span class="close" onclick="closeModal()">&times;</span>
-        </div>
-        <div class="modal-body" id="modalBody">
-            <p style="text-align: center; color: #7f8c8d;">Đang tải...</p>
-        </div>
-    </div>
-</div>
-
-<?php
-// Lấy tất cả sản phẩm để dùng cho modal (load sẵn vào JS)
-$sql_all_products = "SELECT id, name, price, stock, image, description, manufacturer_id 
-                     FROM products 
-                     ORDER BY id DESC";
-$products_result = $conn->query($sql_all_products);
-$all_products = [];
-while ($p = $products_result->fetch_assoc()) {
-    $all_products[] = $p;
-}
-?>
-
-<script>
-// Load tất cả sản phẩm vào JS (không cần AJAX)
-const allProducts = <?= json_encode($all_products) ?>;
-
-// View Product Details
-function viewDetails(manufacturerId, manufacturerName) {
-    const modal = document.getElementById('productModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    
-    modalTitle.textContent = `Sản phẩm của ${manufacturerName}`;
-    
-    // Lọc sản phẩm theo manufacturer_id
-    const products = allProducts.filter(p => p.manufacturer_id == manufacturerId);
-    
-    if (products.length > 0) {
-        let html = '';
-        products.forEach(product => {
-            const totalValue = parseFloat(product.price) * parseInt(product.stock);
-            html += `
-                <div class="product-item">
-                    <img src="images/${product.image || 'placeholder.jpg'}" 
-                         alt="${product.name}" 
-                         class="product-image"
-                         onerror="this.style.display='none'">
-                    <div class="product-info">
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-details">
-                            <div class="product-detail-item">
-                                <strong>Giá:</strong> ${parseFloat(product.price).toLocaleString('vi-VN')}đ
-                            </div>
-                            <div class="product-detail-item">
-                                <strong>Tồn kho:</strong> ${product.stock}
-                            </div>
-                            <div class="product-detail-item">
-                                <strong>Giá trị:</strong> ${totalValue.toLocaleString('vi-VN')}đ
+                            <?php endif; ?>
+                            
+                            <div class="product-info">
+                                <div class="product-name"><?= htmlspecialchars($product['name']) ?></div>
+                                <div class="product-details">
+                                    <div class="product-detail-item">
+                                        <strong>Giá:</strong> <?= number_format($product['price'], 0, ',', '.') ?>đ
+                                    </div>
+                                    <div class="product-detail-item">
+                                        <strong>Tồn kho:</strong> <?= $product['stock'] ?>
+                                    </div>
+                                    <div class="product-detail-item">
+                                        <strong>Giá trị:</strong> <?= number_format($totalValue, 0, ',', '.') ?>đ
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            `;
-        });
-        modalBody.innerHTML = html;
-    } else {
-        modalBody.innerHTML = '<div class="no-products">Chưa có sản phẩm nào.</div>';
-    }
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="no-products">Chưa có sản phẩm nào.</div>
+                <?php endif; ?>
+            </div>
+        </div>
+        
+    <?php else: ?>
+        <!-- List View -->
+        <div class="page-header">
+            <h1 class="page-title">Quản lý Đối tác</h1>
+            <a href="index.php?page=partner_add" class="btn btn-success">+ Thêm Đối tác</a>
+        </div>
+
+        <div class="table-container">
+            <?php if ($res && $res->num_rows > 0): ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Mô tả</th>
+                            <th>Số sản phẩm</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $res->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= $row['id'] ?></td>
+                                <td><?= htmlspecialchars($row['name']) ?></td>
+                                <td><?= htmlspecialchars($row['description']) ?></td>
+                                <td><?= $row['product_count'] ?></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="index.php?page=admin_partners&detail=<?= $row['id'] ?>" class="btn btn-sm btn-info">Chi tiết</a>
+                                        <a href="index.php?page=partner_edit&id=<?= $row['id'] ?>" class="btn btn-sm btn-primary">Sửa</a>
+                                        <a href="index.php?page=partner_delete&id=<?= $row['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Xác nhận xóa?')">Xóa</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <div class="alert alert-info">Chưa có đối tác nào.</div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
     
-    modal.classList.add('show');
-}
-
-function closeModal() {
-    document.getElementById('productModal').classList.remove('show');
-}
-
-// Close modal when clicking outside
-window.onclick = function(event) {
-    const modal = document.getElementById('productModal');
-    if (event.target == modal) {
-        closeModal();
-    }
-}
-</script>
+</div>
