@@ -105,6 +105,10 @@ if (isset($_SESSION['user_id'])) {
                                     <div class="icon-circle"><i class="fas fa-users-cog"></i></div>
                                     <span>Quản lý Người dùng</span>
                                 </a>
+                                <a href="index.php?page=lichsu">
+                                    <div class="icon-circle"><i class="fas fa-user-circle"></i></div>
+                                    <span>Lịch sử người dùng</span>
+                                </a>
                                 <a href="index.php?page=admin_orders">
                                     <div class="icon-circle"><i class="fas fa-receipt"></i></div>
                                     <span>Quản lý Đơn hàng</span>
