@@ -35,7 +35,7 @@
                 <ul class="footer-links">
                     <li><a href="index.php?page=about_us">Về công ty</a></li>
                     <li><a href="#">Tuyển dụng</a></li>
-                    <li><a href="#">Tin tức</a></li>
+                    <li><a href="index.php?page=news">Tin tức</a></li>
                     <li><a href="#">Hệ thống cửa hàng</a></li>
                     <li><a href="#">Liên hệ hợp tác</a></li>
                 </ul>
