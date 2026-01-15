@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-md-6">
                     <label class="card p-3 mb-3 d-flex align-items-center">
                         <input type="radio" name="phuongthuc" value="Banking" required class="visually-hidden">
-                        <img src="images/banking.png" alt="Banking" class="me-2" style="width:60px;height:40px;object-fit:contain;">
+                        <img src="images/bank.png" alt="Banking" class="me-2" style="width:60px;height:40px;object-fit:contain;">
                         <span class="fw-bold">Chuyển khoản</span>
                     </label>
                 </div>

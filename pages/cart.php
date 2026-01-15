@@ -88,7 +88,7 @@ if ($cart_id > 0) {
 
         <div style="margin-top:12px;">
             <a href="index.php?page=category&id=1" class="btn btn-secondary">Tiếp tục mua sắm</a>
-            <a href="#" class="btn btn-success ml-2">Thanh toán</a>
+            <a href="index.php?page=payment" class="btn btn-success ml-2">Thanh toán</a>
         </div>
     <?php endif; ?>
 </div>
