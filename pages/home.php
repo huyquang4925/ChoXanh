@@ -84,12 +84,8 @@ $total_pages = ceil($total_products / $limit);
             <?php 
             if (count($featured_products) > 0):
                 foreach($featured_products as $product): 
-                    $discount = rand(20, 50);
-                    $original_price = $product['price'];
-                    $discounted_price = $original_price * (100 - $discount) / 100;
             ?>
                 <div class="product-card" onclick="viewProduct(<?= $product['id'] ?>)">
-                    <div class="product-badge">-<?= $discount ?>%</div>
                     
                     <?php if ($product['stock'] > 0): ?>
                         <div class="stock-badge <?= $product['stock'] < 10 ? 'low' : '' ?>">
@@ -110,8 +106,7 @@ $total_pages = ceil($total_products / $limit);
                     <div class="product-info">
                         <div class="product-name"><?= htmlspecialchars($product['name']) ?></div>
                         <div class="product-price">
-                            <span class="price-new"><?= number_format($discounted_price, 0, ',', '.') ?>đ</span>
-                            <span class="price-old"><?= number_format($original_price, 0, ',', '.') ?>đ</span>
+                            <span class="price-new"><?= number_format($product['price'], 0, ',', '.') ?>đ</span>
                         </div>
                         <form method="post" action="index.php?page=cart_add" style="display:inline;" onsubmit="event.stopPropagation();">
                             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">

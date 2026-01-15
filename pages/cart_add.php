@@ -25,7 +25,6 @@ if ($product_id <= 0) {
     safe_redirect('index.php?page=home');
 }
 
-// find or create cart for user
 $cart_id = 0;
 $res = $conn->query("SELECT id FROM carts WHERE user_id = $user_id LIMIT 1");
 if ($res && $res->num_rows > 0) {

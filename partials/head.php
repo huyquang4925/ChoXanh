@@ -156,7 +156,6 @@ if (isset($_SESSION['user_id'])) {
                     userDropdown.classList.toggle('show');
                 });
 
-                // Close the dropdown if the user clicks outside of it
                 window.addEventListener('click', function (event) {
                     if (!userAvatar.contains(event.target) && !userDropdown.contains(event.target)) {
                         userDropdown.classList.remove('show');
