@@ -2,13 +2,13 @@
 require_once __DIR__ . '/../core/Model.php';
 
 /**
- * Order Model
+ * Model Đơn hàng
  */
 class OrderModel extends Model {
     protected $table = 'orders';
     
     /**
-     * Get orders by user
+     * Lấy đơn hàng theo người dùng
      */
     public function getOrdersByUser($userId) {
         $userId = intval($userId);
@@ -26,7 +26,7 @@ class OrderModel extends Model {
     }
     
     /**
-     * Get all orders with user info
+     * Lấy tất cả đơn hàng với thông tin người dùng
      */
     public function getAllOrders() {
         $sql = "SELECT o.*, u.username 
@@ -46,19 +46,19 @@ class OrderModel extends Model {
     }
     
     /**
-     * Get order detail with items
+     * Lấy chi tiết đơn hàng với sản phẩm
      */
     public function getOrderDetail($orderId) {
         $orderId = intval($orderId);
         
-        // Get order info
+        // Lấy thông tin đơn hàng
         $order = $this->findById($orderId);
         
         if (!$order) {
             return null;
         }
         
-        // Get order items
+        // Lấy sản phẩm trong đơn hàng
         $sql = "SELECT oi.*, p.name, p.image 
                 FROM order_items oi 
                 LEFT JOIN products p ON oi.product_id = p.id 
@@ -78,12 +78,12 @@ class OrderModel extends Model {
     }
     
     /**
-     * Get order detail with user info and items
+     * Lấy chi tiết đơn hàng với thông tin người dùng và sản phẩm
      */
     public function getOrderDetailWithUser($orderId) {
         $orderId = intval($orderId);
         
-        // Get order with user info
+        // Lấy đơn hàng với thông tin người dùng
         $sql = "SELECT o.*, u.username, u.email 
                 FROM orders o 
                 LEFT JOIN users u ON u.id = o.user_id 
@@ -97,7 +97,7 @@ class OrderModel extends Model {
         
         $order = $result->fetch_assoc();
         
-        // Get order items
+        // Lấy sản phẩm trong đơn hàng
         $sql = "SELECT oi.*, p.name 
                 FROM order_items oi 
                 LEFT JOIN products p ON p.id = oi.product_id 
@@ -117,7 +117,7 @@ class OrderModel extends Model {
     }
     
     /**
-     * Create new order
+     * Tạo đơn hàng mới
      */
     public function createOrder($userId, $totalAmount, $status = 'pending') {
         return $this->insert([
@@ -128,7 +128,7 @@ class OrderModel extends Model {
     }
     
     /**
-     * Add order item
+     * Thêm sản phẩm vào đơn hàng
      */
     public function addOrderItem($orderId, $productId, $quantity, $price) {
         $sql = "INSERT INTO order_items (order_id, product_id, quantity, price) 
@@ -137,14 +137,14 @@ class OrderModel extends Model {
     }
     
     /**
-     * Update order status
+     * Cập nhật trạng thái đơn hàng
      */
     public function updateStatus($orderId, $status) {
         return $this->update($orderId, ['status' => $status]);
     }
     
     /**
-     * Create order from cart
+     * Tạo đơn hàng từ giỏ hàng
      */
     public function createFromCart($userId, $cartItems, $total) {
         $orderId = $this->createOrder($userId, $total);

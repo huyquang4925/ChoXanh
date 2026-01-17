@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * Review Controller
+ * Bộ điều khiển Đánh giá
  */
 class ReviewController extends Controller {
     private $reviewModel;
@@ -13,7 +13,7 @@ class ReviewController extends Controller {
     }
     
     /**
-     * Add review
+     * Thêm đánh giá
      */
     public function add() {
         if (!$this->isLoggedIn()) {
@@ -39,10 +39,10 @@ class ReviewController extends Controller {
     }
     
     /**
-     * Delete review
+     * Xóa đánh giá
      */
     public function delete() {
-        // Only admin or user 'test' can delete
+        // Chỉ admin hoặc user 'test' mới có thể xóa
         if (!$this->isAdmin() && $this->getUsername() !== 'test') {
             echo '<script>alert("Bạn không có quyền xóa đánh giá!"); history.back();</script>';
             exit;

@@ -1,7 +1,3 @@
-<?php
-// Variables available: $product, $categories, $partners, $error, $success
-?>
-
 <div class="container mt-5">
     <h2>Sửa Sản Phẩm</h2>
 

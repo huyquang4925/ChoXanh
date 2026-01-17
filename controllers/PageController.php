@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * Page Controller - Static pages
+ * Bộ điều khiển Trang - Các trang tĩnh
  */
 class PageController extends Controller {
     
@@ -11,14 +11,14 @@ class PageController extends Controller {
     }
     
     /**
-     * About us page
+     * Trang giới thiệu
      */
     public function aboutUs() {
         $this->view('page/about_us');
     }
     
     /**
-     * Contact page
+     * Trang liên hệ
      */
     public function contact() {
         $this->view('page/contact');

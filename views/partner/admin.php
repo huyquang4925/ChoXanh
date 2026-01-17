@@ -1,7 +1,3 @@
-<?php
-// Variables available: $partners
-?>
-
 <link rel="stylesheet" href="css/partners.css">
 <div class="container">
     <div class="page-header">

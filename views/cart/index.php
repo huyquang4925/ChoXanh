@@ -1,7 +1,3 @@
-<?php
-// Variables available: $items, $total
-?>
-
 <div class="container cart-page">
     <h2>Giỏ hàng của bạn</h2>
 

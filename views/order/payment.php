@@ -1,7 +1,3 @@
-<?php
-// Variables available: $items, $total, $error, $success
-?>
-
 <?php if ($success): ?>
     <div class="container mt-4">
         <div class="alert alert-success"><?php echo $success; ?></div>

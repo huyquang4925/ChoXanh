@@ -2,13 +2,13 @@
 require_once __DIR__ . '/../core/Model.php';
 
 /**
- * Product Model
+ * Model Sản phẩm
  */
 class ProductModel extends Model {
     protected $table = 'products';
     
     /**
-     * Get products with category name
+     * Lấy sản phẩm với tên danh mục
      */
     public function getProductsWithCategory($limit = null, $offset = null, $orderBy = 'id DESC') {
         $sql = "SELECT p.*, c.name AS category_name
@@ -36,7 +36,7 @@ class ProductModel extends Model {
     }
     
     /**
-     * Get products by category
+     * Lấy sản phẩm theo danh mục
      */
     public function getByCategory($categoryId, $search = '') {
         $categoryId = intval($categoryId);
@@ -63,7 +63,7 @@ class ProductModel extends Model {
     }
     
     /**
-     * Search products
+     * Tìm kiếm sản phẩm
      */
     public function searchProducts($keyword, $limit = null, $offset = null) {
         $keyword_safe = $this->conn->real_escape_string($keyword);
@@ -95,7 +95,7 @@ class ProductModel extends Model {
     }
     
     /**
-     * Count search results
+     * Đếm kết quả tìm kiếm
      */
     public function countSearchResults($keyword) {
         $keyword_safe = $this->conn->real_escape_string($keyword);
@@ -116,7 +116,7 @@ class ProductModel extends Model {
     }
     
     /**
-     * Get product detail with manufacturer
+     * Lấy chi tiết sản phẩm với nhà sản xuất
      */
     public function getProductDetail($id) {
         $id = intval($id);
@@ -136,40 +136,40 @@ class ProductModel extends Model {
     }
     
     /**
-     * Add new product
+     * Thêm sản phẩm mới
      */
     public function addProduct($data) {
         return $this->insert($data);
     }
     
     /**
-     * Update product
+     * Cập nhật sản phẩm
      */
     public function updateProduct($id, $data) {
         return $this->update($id, $data);
     }
     
     /**
-     * Delete product
+     * Xóa sản phẩm
      */
     public function deleteProduct($id) {
         $id = intval($id);
         
-        // Delete related cart_items first
+        // Xóa cart_items liên quan trước
         $this->conn->query("DELETE FROM cart_items WHERE product_id = {$id}");
         
-        // Delete related order_items
+        // Xóa order_items liên quan
         $this->conn->query("DELETE FROM order_items WHERE product_id = {$id}");
         
-        // Delete related reviews
+        // Xóa đánh giá liên quan
         $this->conn->query("DELETE FROM reviews WHERE product_id = {$id}");
         
-        // Now delete the product
+        // Cuối cùng xóa sản phẩm
         return $this->delete($id);
     }
     
     /**
-     * Search products
+     * Tìm kiếm sản phẩm (phương thức cũ)
      */
     public function search($keyword, $limit = null) {
         $keyword = $this->conn->real_escape_string($keyword);
@@ -196,7 +196,7 @@ class ProductModel extends Model {
     }
     
     /**
-     * Get products by manufacturer
+     * Lấy sản phẩm theo nhà sản xuất
      */
     public function getByManufacturer($manufacturer_id) {
         $manufacturer_id = intval($manufacturer_id);

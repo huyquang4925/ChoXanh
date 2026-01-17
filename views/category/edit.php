@@ -1,7 +1,3 @@
-<?php
-// Variables available: $category, $error, $success
-?>
-
 <div class="container mt-4">
     <h3>Sửa danh mục</h3>
     

@@ -1,7 +1,3 @@
-<?php
-// Variables available: $order
-?>
-
 <div class="container mt-4">
     <h3>Chi tiết Đơn hàng #<?php echo $order['id']; ?></h3>
     <p>Khách: <?php echo htmlspecialchars($order['username'] ?? 'Khách'); ?> — <?php echo htmlspecialchars($order['email'] ?? ''); ?></p>

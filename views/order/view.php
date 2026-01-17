@@ -1,7 +1,3 @@
-<?php
-// Variables available: $order
-?>
-
 <div class="container mt-4">
     <h3>Chi tiết đơn hàng #<?php echo $order['id'] ?? ''; ?></h3>
     

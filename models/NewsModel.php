@@ -2,13 +2,13 @@
 require_once __DIR__ . '/../core/Model.php';
 
 /**
- * News Model
+ * Model Tin tức
  */
 class NewsModel extends Model {
     protected $table = 'news';
     
     /**
-     * Get all news with author
+     * Lấy tất cả tin tức với tác giả
      */
     public function getAllNews() {
         $sql = "SELECT n.*, u.username AS author_name 
@@ -28,7 +28,7 @@ class NewsModel extends Model {
     }
     
     /**
-     * Get news by ID
+     * Lấy tin tức theo ID
      */
     public function getNews($id) {
         $id = intval($id);
@@ -46,7 +46,7 @@ class NewsModel extends Model {
     }
     
     /**
-     * Add news
+     * Thêm tin tức
      */
     public function addNews($title, $content, $image, $authorId) {
         return $this->insert([
@@ -58,14 +58,14 @@ class NewsModel extends Model {
     }
     
     /**
-     * Update news
+     * Cập nhật tin tức
      */
     public function updateNews($id, $data) {
         return $this->update($id, $data);
     }
     
     /**
-     * Delete news
+     * Xóa tin tức
      */
     public function deleteNews($id) {
         return $this->delete($id);

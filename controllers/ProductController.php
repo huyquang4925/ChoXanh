@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * Product Controller
+ * Bộ điều khiển Sản phẩm
  */
 class ProductController extends Controller {
     private $productModel;
@@ -19,7 +19,7 @@ class ProductController extends Controller {
     }
     
     /**
-     * Product detail page
+     * Trang chi tiết sản phẩm
      */
     public function detail() {
         $product_id = $this->get('id', 0);
@@ -40,7 +40,7 @@ class ProductController extends Controller {
     }
     
     /**
-     * Add product page
+     * Trang thêm sản phẩm
      */
     public function add() {
         $this->requireAdmin();
@@ -57,7 +57,7 @@ class ProductController extends Controller {
             $manufacturer_id = $this->post('manufacturer_id');
             $category_id = $this->post('category_id');
             
-            // Handle image upload
+            // Xử lý upload ảnh
             $image = '';
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                 $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);

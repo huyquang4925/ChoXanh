@@ -1,7 +1,3 @@
-<?php
-// Variables available: $orders
-?>
-
 <div class="container mt-4">
     <h3>Lịch sử đơn hàng</h3>
 

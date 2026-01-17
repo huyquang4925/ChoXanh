@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * Partner Controller
+ * Bộ điều khiển Đối tác
  */
 class PartnerController extends Controller {
     private $partnerModel;
@@ -13,7 +13,7 @@ class PartnerController extends Controller {
     }
     
     /**
-     * Admin partners list
+     * Quản lý đối tác (Admin)
      */
     public function admin() {
         $this->requireAdmin();
@@ -26,7 +26,7 @@ class PartnerController extends Controller {
     }
     
     /**
-     * Add partner
+     * Thêm đối tác
      */
     public function add() {
         $this->requireAdmin();
@@ -58,7 +58,7 @@ class PartnerController extends Controller {
     }
     
     /**
-     * Edit partner
+     * Chỉnh sửa đối tác
      */
     public function edit() {
         $this->requireAdmin();
@@ -99,7 +99,7 @@ class PartnerController extends Controller {
     }
     
     /**
-     * Delete partner
+     * Xóa đối tác
      */
     public function delete() {
         $this->requireAdmin();
@@ -112,7 +112,7 @@ class PartnerController extends Controller {
             exit;
         }
         
-        // If confirmed, delete the partner
+        // Nếu đã xác nhận, xóa đối tác
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $this->post('confirm')) {
             $result = $this->partnerModel->deletePartner($id);
             if ($result) {
@@ -123,14 +123,14 @@ class PartnerController extends Controller {
             exit;
         }
         
-        // Show confirmation page
+        // Hiển thị trang xác nhận
         $this->view('partner/delete', [
             'partner' => $partner
         ]);
     }
     
     /**
-     * Partner detail
+     * Chi tiết đối tác
      */
     public function detail() {
         $this->requireAdmin();
@@ -143,7 +143,7 @@ class PartnerController extends Controller {
             return;
         }
         
-        // Get products of this partner
+        // Lấy sản phẩm của đối tác này
         $productModel = $this->model('ProductModel');
         $products = $productModel->getByManufacturer($id);
         

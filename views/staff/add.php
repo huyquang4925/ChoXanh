@@ -1,7 +1,3 @@
-<?php
-// Variables available: $error, $success
-?>
-
 <div class="container mt-4">
     <h3>Thêm người dùng</h3>
     

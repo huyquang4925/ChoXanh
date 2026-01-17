@@ -1,7 +1,3 @@
-<?php
-// Variables available: $product, $product_id, $reviews, $isAdmin
-?>
-
 <link rel="stylesheet" href="css/review.css">
 
 <div class="container product-detail">

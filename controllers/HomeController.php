@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * Home Controller
+ * Bộ điều khiển Trang chủ
  */
 class HomeController extends Controller {
     private $productModel;
@@ -15,7 +15,7 @@ class HomeController extends Controller {
     }
     
     /**
-     * Home page
+     * Trang chủ
      */
     public function index() {
         $limit = 12;
@@ -23,13 +23,13 @@ class HomeController extends Controller {
         $page = max($page, 1);
         $offset = ($page - 1) * $limit;
         
-        // Get categories
+        // Lấy danh mục
         $categories = $this->categoryModel->getFeatured(6);
         
-        // Get products
+        // Lấy sản phẩm
         $products = $this->productModel->getProductsWithCategory($limit, $offset);
         
-        // Get total products for pagination
+        // Lấy tổng số sản phẩm để phân trang
         $total_products = $this->productModel->count();
         $total_pages = ceil($total_products / $limit);
         
@@ -42,7 +42,7 @@ class HomeController extends Controller {
     }
     
     /**
-     * Search products
+     * Tìm kiếm sản phẩm
      */
     public function search() {
         $keyword = isset($_GET['q']) ? trim($_GET['q']) : '';
@@ -51,15 +51,15 @@ class HomeController extends Controller {
         $page = max($page, 1);
         $offset = ($page - 1) * $limit;
         
-        // Get categories
+        // Lấy danh mục
         $categories = $this->categoryModel->getFeatured(6);
         
         if (!empty($keyword)) {
-            // Search products
+            // Tìm kiếm sản phẩm
             $products = $this->productModel->searchProducts($keyword, $limit, $offset);
             $total_products = $this->productModel->countSearchResults($keyword);
         } else {
-            // No keyword, show all products
+            // Không có từ khóa, hiển thị tất cả sản phẩm
             $products = $this->productModel->getProductsWithCategory($limit, $offset);
             $total_products = $this->productModel->count();
         }

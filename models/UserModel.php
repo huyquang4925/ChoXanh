@@ -2,13 +2,13 @@
 require_once __DIR__ . '/../core/Model.php';
 
 /**
- * User Model
+ * Model Người dùng
  */
 class UserModel extends Model {
     protected $table = 'users';
     
     /**
-     * Find user by username
+     * Tìm người dùng theo tên đăng nhập
      */
     public function findByUsername($username) {
         $username = $this->conn->real_escape_string($username);
@@ -23,7 +23,7 @@ class UserModel extends Model {
     }
     
     /**
-     * Check if username or email exists
+     * Kiểm tra tên đăng nhập hoặc email đã tồn tại
      */
     public function exists($username, $email) {
         $username = $this->conn->real_escape_string($username);
@@ -36,7 +36,7 @@ class UserModel extends Model {
     }
     
     /**
-     * Register new user
+     * Đăng ký người dùng mới
      */
     public function register($username, $email, $password, $role = 'customer') {
         return $this->insert([
@@ -48,7 +48,7 @@ class UserModel extends Model {
     }
     
     /**
-     * Verify login
+     * Xác thực đăng nhập
      */
     public function verifyLogin($username, $password) {
         $user = $this->findByUsername($username);
@@ -61,51 +61,51 @@ class UserModel extends Model {
     }
     
     /**
-     * Update profile
+     * Cập nhật hồ sơ
      */
     public function updateProfile($id, $data) {
         return $this->update($id, $data);
     }
     
     /**
-     * Get all staff (admin users)
+     * Lấy tất cả nhân viên (admin)
      */
     public function getStaff() {
         return $this->findAll();
     }
     
     /**
-     * Get all customers
+     * Lấy tất cả khách hàng
      */
     public function getCustomers() {
         return $this->findWhere(['role' => 'customer']);
     }
     
     /**
-     * Delete user and all related data
+     * Xóa người dùng và tất cả dữ liệu liên quan
      */
     public function deleteUser($id) {
         $id = intval($id);
         
-        // Delete related cart_items first
+        // Xóa cart_items liên quan trước
         $this->conn->query("DELETE ci FROM cart_items ci INNER JOIN carts c ON ci.cart_id = c.id WHERE c.user_id = {$id}");
         
-        // Delete related carts
+        // Xóa giỏ hàng liên quan
         $this->conn->query("DELETE FROM carts WHERE user_id = {$id}");
         
-        // Delete related reviews
+        // Xóa đánh giá liên quan
         $this->conn->query("DELETE FROM reviews WHERE user_id = {$id}");
         
-        // Delete related order_items
+        // Xóa order_items liên quan
         $this->conn->query("DELETE oi FROM order_items oi INNER JOIN orders o ON oi.order_id = o.id WHERE o.user_id = {$id}");
         
-        // Delete related payments
+        // Xóa thanh toán liên quan
         $this->conn->query("DELETE p FROM payments p INNER JOIN orders o ON p.order_id = o.id WHERE o.user_id = {$id}");
         
-        // Delete related orders
+        // Xóa đơn hàng liên quan
         $this->conn->query("DELETE FROM orders WHERE user_id = {$id}");
         
-        // Now delete the user
+        // Cuối cùng xóa người dùng
         return $this->delete($id);
     }
 }

@@ -1,8 +1,4 @@
 <?php
-/**
- * Database Connection Class
- * Singleton pattern for database connection
- */
 class Database {
     private static $instance = null;
     private $conn;

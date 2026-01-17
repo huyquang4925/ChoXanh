@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * Order Controller
+ * Bộ điều khiển Đơn hàng
  */
 class OrderController extends Controller {
     private $orderModel;
@@ -15,7 +15,7 @@ class OrderController extends Controller {
     }
     
     /**
-     * Payment page
+     * Trang thanh toán
      */
     public function payment() {
         $this->requireLogin();
@@ -32,7 +32,7 @@ class OrderController extends Controller {
             if (empty($items)) {
                 $error = 'Giỏ hàng trống';
             } else {
-                // Create order
+                // Tạo đơn hàng
                 $orderId = $this->orderModel->createFromCart($user_id, $items, $total);
                 
                 if ($orderId) {
@@ -56,7 +56,7 @@ class OrderController extends Controller {
     }
     
     /**
-     * Admin orders list
+     * Danh sách đơn hàng (Admin)
      */
     public function admin() {
         $this->requireAdmin();
@@ -69,7 +69,7 @@ class OrderController extends Controller {
     }
     
     /**
-     * View order detail (for admin with status update)
+     * Xem chi tiết đơn hàng (Admin - có cập nhật trạng thái)
      */
     public function detail() {
         $this->requireAdmin();

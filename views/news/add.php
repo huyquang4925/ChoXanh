@@ -1,7 +1,3 @@
-<?php
-// Variables available: $error, $success
-?>
-
 <div class="container mt-4">
     <h2>Thêm Tin Tức Mới</h2>
     

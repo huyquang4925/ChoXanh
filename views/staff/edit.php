@@ -1,7 +1,3 @@
-<?php
-// Variables available: $staff, $error, $success
-?>
-
 <div class="container mt-4">
     <h3>Sửa người dùng</h3>
     

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * News Controller
+ * Bộ điều khiển Tin tức
  */
 class NewsController extends Controller {
     private $newsModel;
@@ -13,12 +13,12 @@ class NewsController extends Controller {
     }
     
     /**
-     * News list
+     * Danh sách tin tức
      */
     public function index() {
         $deleteMessage = '';
         
-        // Handle delete
+        // Xử lý xóa
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $this->post('delete_id')) {
             $deleteId = intval($this->post('delete_id'));
             
@@ -42,10 +42,10 @@ class NewsController extends Controller {
     }
     
     /**
-     * Add news
+     * Thêm tin tức
      */
     public function add() {
-        // Allow admin or test user
+        // Cho phép admin hoặc user test
         if (!$this->isAdmin() && $this->getUsername() !== 'test') {
             echo 'Bạn không thể đăng tin.';
             exit;
@@ -59,7 +59,7 @@ class NewsController extends Controller {
             $content = trim($this->post('content', ''));
             $author_id = $this->getUserId();
             
-            // Handle image upload
+            // Xử lý upload ảnh
             $imageName = '';
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                 $uploadDir = __DIR__ . '/../uploads/';

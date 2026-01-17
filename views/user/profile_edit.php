@@ -1,7 +1,3 @@
-<?php
-// Variables available: $user, $error, $success
-?>
-
 <style>
 .profile-wrapper {
     max-width: 700px;

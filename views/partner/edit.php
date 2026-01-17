@@ -1,7 +1,3 @@
-<?php
-// Variables available: $partner, $error, $success
-?>
-
 <div class="container mt-4">
     <h3>Sửa đối tác</h3>
     

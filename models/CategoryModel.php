@@ -2,76 +2,76 @@
 require_once __DIR__ . '/../core/Model.php';
 
 /**
- * Category Model
+ * Model Danh mục
  */
 class CategoryModel extends Model {
     protected $table = 'categories';
     
     /**
-     * Get featured categories
+     * Lấy danh mục nổi bật
      */
     public function getFeatured($limit = 6) {
         return $this->findAll('id ASC', $limit);
     }
     
     /**
-     * Get all categories for menu
+     * Lấy tất cả danh mục cho menu
      */
     public function getAllForMenu() {
         return $this->findAll('id ASC');
     }
     
     /**
-     * Get category by ID
+     * Lấy danh mục theo ID
      */
     public function getCategory($id) {
         return $this->findById($id);
     }
     
     /**
-     * Add category
+     * Thêm danh mục
      */
     public function addCategory($name) {
         return $this->insert(['name' => $name]);
     }
     
     /**
-     * Update category
+     * Cập nhật danh mục
      */
     public function updateCategory($id, $name) {
         return $this->update($id, ['name' => $name]);
     }
     
     /**
-     * Delete category
+     * Xóa danh mục
      */
     public function deleteCategory($id) {
         $id = intval($id);
         
-        // First, get all products in this category
+        // Đầu tiên, lấy tất cả sản phẩm trong danh mục này
         $sql = "SELECT id FROM products WHERE category_id = {$id}";
         $result = $this->conn->query($sql);
         
         if ($result && $result->num_rows > 0) {
-            // Delete related data for each product
+            // Xóa dữ liệu liên quan cho mỗi sản phẩm
             while ($row = $result->fetch_assoc()) {
                 $product_id = $row['id'];
                 
-                // Delete cart_items
+                // Xóa cart_items
                 $this->conn->query("DELETE FROM cart_items WHERE product_id = {$product_id}");
                 
-                // Delete order_items
+                // Xóa order_items
                 $this->conn->query("DELETE FROM order_items WHERE product_id = {$product_id}");
                 
-                // Delete reviews
+                // Xóa đánh giá
                 $this->conn->query("DELETE FROM reviews WHERE product_id = {$product_id}");
             }
             
-            // Delete all products in this category
+            // Xóa tất cả sản phẩm trong danh mục này
             $this->conn->query("DELETE FROM products WHERE category_id = {$id}");
         }
         
-        // Now delete the category
+        // Cuối cùng xóa danh mục
         return $this->delete($id);
     }
 }

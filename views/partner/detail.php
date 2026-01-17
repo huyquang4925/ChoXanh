@@ -1,6 +1,3 @@
-<?php
-// Variables available: $partner, $products
-?>
 <link rel="stylesheet" href="css/partners.css">
 
 <div class="container">

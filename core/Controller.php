@@ -1,7 +1,7 @@
 <?php
 /**
- * Base Controller Class
- * All controllers should extend this class
+ * Lớp Controller cơ sở
+ * Tất cả các controller phải kế thừa lớp này
  */
 class Controller {
     protected $db;
@@ -17,7 +17,7 @@ class Controller {
     }
     
     /**
-     * Load a model
+     * Tải một model
      */
     protected function model($model) {
         $modelFile = __DIR__ . '/../models/' . $model . '.php';
@@ -31,13 +31,13 @@ class Controller {
     }
     
     /**
-     * Render a view
+     * Hiển thị một view
      */
     protected function view($view, $data = []) {
-        // Extract data to variables
+        // Trích xuất dữ liệu thành biến
         extract($data);
         
-        // Also pass conn for backward compatibility
+        // Truyền conn để tương thích ngược
         $conn = $this->conn;
         
         // Include the view file
@@ -51,7 +51,7 @@ class Controller {
     }
     
     /**
-     * Redirect to another page
+     * Chuyển hướng đến trang khác
      */
     protected function redirect($url) {
         if (!headers_sent()) {
@@ -64,14 +64,14 @@ class Controller {
     }
     
     /**
-     * Check if user is logged in
+     * Kiểm tra người dùng đã đăng nhập
      */
     protected function isLoggedIn() {
         return isset($_SESSION['user_id']);
     }
     
     /**
-     * Check if user is admin
+     * Kiểm tra người dùng là admin
      */
     protected function isAdmin() {
         return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';

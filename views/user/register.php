@@ -1,7 +1,3 @@
-<?php
-// Variables available: $error, $success
-?>
-
 <div class="auth-box">
     <h2>Đăng ký</h2>
     <?php if ($error) : ?>

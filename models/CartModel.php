@@ -2,13 +2,13 @@
 require_once __DIR__ . '/../core/Model.php';
 
 /**
- * Cart Model
+ * Model Giỏ hàng
  */
 class CartModel extends Model {
     protected $table = 'carts';
     
     /**
-     * Get cart for user
+     * Lấy giỏ hàng của người dùng
      */
     public function getCartByUser($userId) {
         $userId = intval($userId);
@@ -23,7 +23,7 @@ class CartModel extends Model {
     }
     
     /**
-     * Create cart for user
+     * Tạo giỏ hàng cho người dùng
      */
     public function createCart($userId) {
         $userId = intval($userId);
@@ -32,7 +32,7 @@ class CartModel extends Model {
     }
     
     /**
-     * Get or create cart for user
+     * Lấy hoặc tạo giỏ hàng cho người dùng
      */
     public function getOrCreateCart($userId) {
         $cart = $this->getCartByUser($userId);
@@ -45,7 +45,7 @@ class CartModel extends Model {
     }
     
     /**
-     * Get cart items with product details
+     * Lấy các sản phẩm trong giỏ hàng với chi tiết
      */
     public function getCartItems($cartId) {
         $cartId = intval($cartId);
@@ -68,7 +68,7 @@ class CartModel extends Model {
     }
     
     /**
-     * Get cart item
+     * Lấy sản phẩm trong giỏ hàng
      */
     public function getCartItem($cartId, $productId) {
         $cartId = intval($cartId);
@@ -85,7 +85,7 @@ class CartModel extends Model {
     }
     
     /**
-     * Add item to cart
+     * Thêm sản phẩm vào giỏ hàng
      */
     public function addItem($cartId, $productId, $quantity = 1) {
         $cartId = intval($cartId);
@@ -104,7 +104,7 @@ class CartModel extends Model {
     }
     
     /**
-     * Update item quantity
+     * Cập nhật số lượng sản phẩm
      */
     public function updateItemQuantity($cartItemId, $quantity) {
         $cartItemId = intval($cartItemId);
@@ -115,7 +115,7 @@ class CartModel extends Model {
     }
     
     /**
-     * Remove item from cart
+     * Xóa sản phẩm khỏi giỏ hàng
      */
     public function removeItem($cartItemId) {
         $cartItemId = intval($cartItemId);
@@ -124,7 +124,7 @@ class CartModel extends Model {
     }
     
     /**
-     * Clear cart
+     * Xóa toàn bộ giỏ hàng
      */
     public function clearCart($cartId) {
         $cartId = intval($cartId);
@@ -133,7 +133,7 @@ class CartModel extends Model {
     }
     
     /**
-     * Calculate cart total
+     * Tính tổng tiền giỏ hàng
      */
     public function getCartTotal($cartId) {
         $items = $this->getCartItems($cartId);

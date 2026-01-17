@@ -1,7 +1,7 @@
 <?php
 /**
- * Base Model Class
- * All models should extend this class
+ * Lớp Model cơ sở
+ * Tất cả các model phải kế thừa lớp này
  */
 class Model {
     protected $db;
@@ -14,7 +14,7 @@ class Model {
     }
     
     /**
-     * Find all records
+     * Tìm tất cả bản ghi
      */
     public function findAll($orderBy = 'id DESC', $limit = null, $offset = null) {
         $sql = "SELECT * FROM {$this->table} ORDER BY {$orderBy}";
@@ -39,7 +39,7 @@ class Model {
     }
     
     /**
-     * Find record by ID
+     * Tìm bản ghi theo ID
      */
     public function findById($id) {
         $id = intval($id);
@@ -54,7 +54,7 @@ class Model {
     }
     
     /**
-     * Find records by condition
+     * Tìm bản ghi theo điều kiện
      */
     public function findWhere($conditions, $orderBy = 'id DESC') {
         $where = [];

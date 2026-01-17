@@ -1,7 +1,3 @@
-<?php
-// Variables available: $category_id, $categories, $partners, $error, $success
-?>
-
 <div class="container mt-5">
     <h2>Thêm Sản Phẩm Mới</h2>
 

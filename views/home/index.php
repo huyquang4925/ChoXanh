@@ -1,8 +1,7 @@
 <?php
-// Variables available: $categories, $products, $current_page, $total_pages
 $page = $current_page;
 $featured_products = $products;
-$total_products = count($products) * $total_pages; // approximation
+$total_products = count($products) * $total_pages;
 ?>
 
 <link rel="stylesheet" href="css/home.css">

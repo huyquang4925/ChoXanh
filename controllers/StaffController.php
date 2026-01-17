@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * Staff Controller
+ * Bộ điều khiển Nhân viên
  */
 class StaffController extends Controller {
     private $userModel;
@@ -13,7 +13,7 @@ class StaffController extends Controller {
     }
     
     /**
-     * Admin staff list
+     * Quản lý nhân viên (Admin)
      */
     public function admin() {
         $this->requireAdmin();
@@ -26,7 +26,7 @@ class StaffController extends Controller {
     }
     
     /**
-     * Add staff
+     * Thêm nhân viên
      */
     public function add() {
         $this->requireAdmin();
@@ -61,7 +61,7 @@ class StaffController extends Controller {
     }
     
     /**
-     * Edit staff
+     * Chỉnh sửa nhân viên
      */
     public function edit() {
         $this->requireAdmin();
@@ -108,7 +108,7 @@ class StaffController extends Controller {
     }
     
     /**
-     * Delete staff
+     * Xóa nhân viên
      */
     public function delete() {
         $this->requireAdmin();
@@ -116,7 +116,7 @@ class StaffController extends Controller {
         $id = $this->get('id', 0);
         $user = $this->userModel->findById($id);
         
-        // Don't delete yourself
+        // Không thể xóa chính mình
         if ($id == $this->getUserId()) {
             echo '<script>alert("Không thể xóa chính mình!"); history.back();</script>';
             exit;
@@ -127,7 +127,7 @@ class StaffController extends Controller {
             exit;
         }
         
-        // If confirmed, delete the user
+        // Nếu đã xác nhận, xóa người dùng
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $this->post('confirm')) {
             $result = $this->userModel->deleteUser($id);
             if ($result) {
@@ -138,7 +138,7 @@ class StaffController extends Controller {
             exit;
         }
         
-        // Show confirmation page
+        // Hiển thị trang xác nhận
         $this->view('staff/delete', [
             'user' => $user
         ]);

@@ -1,7 +1,3 @@
-<?php
-// Variables available: $category, $products, $search, $id, $isAdmin
-?>
-
 <link rel="stylesheet" href="css/category.css">
 
 <div class="category-container">

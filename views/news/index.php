@@ -1,5 +1,4 @@
 <?php
-// Variables available: $news, $deleteMessage
 $username = $_SESSION['username'] ?? '';
 $role = $_SESSION['role'] ?? '';
 ?>

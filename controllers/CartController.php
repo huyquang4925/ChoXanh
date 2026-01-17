@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * Cart Controller
+ * Bộ điều khiển Giỏ hàng
  */
 class CartController extends Controller {
     private $cartModel;
@@ -13,7 +13,7 @@ class CartController extends Controller {
     }
     
     /**
-     * Cart page
+     * Trang giỏ hàng
      */
     public function index() {
         if (!$this->isLoggedIn()) {
@@ -33,7 +33,7 @@ class CartController extends Controller {
     }
     
     /**
-     * Add to cart
+     * Thêm vào giỏ hàng
      */
     public function add() {
         if (!$this->isLoggedIn()) {
@@ -55,7 +55,7 @@ class CartController extends Controller {
     }
     
     /**
-     * Update cart item
+     * Cập nhật sản phẩm trong giỏ
      */
     public function update() {
         if (!$this->isLoggedIn()) {
@@ -77,7 +77,7 @@ class CartController extends Controller {
     }
     
     /**
-     * Remove from cart
+     * Xoá sản phẩm
      */
     public function remove() {
         if (!$this->isLoggedIn()) {

@@ -2,27 +2,27 @@
 require_once __DIR__ . '/../core/Model.php';
 
 /**
- * Partner (Nha San Xuat) Model
+ * Model Đối tác (Nhà sản xuất)
  */
 class PartnerModel extends Model {
     protected $table = 'nhasanxuat';
     
     /**
-     * Get all partners
+     * Lấy tất cả đối tác
      */
     public function getAllPartners() {
         return $this->findAll('id DESC');
     }
     
     /**
-     * Get partner by ID
+     * Lấy đối tác theo ID
      */
     public function getPartner($id) {
         return $this->findById($id);
     }
     
     /**
-     * Add partner
+     * Thêm đối tác
      */
     public function addPartner($name, $description = '') {
         return $this->insert([
@@ -32,7 +32,7 @@ class PartnerModel extends Model {
     }
     
     /**
-     * Update partner
+     * Cập nhật đối tác
      */
     public function updatePartner($id, $name, $description = '') {
         return $this->update($id, [
@@ -42,16 +42,16 @@ class PartnerModel extends Model {
     }
     
     /**
-     * Delete partner
+     * Xóa đối tác
      */
     public function deletePartner($id) {
         $id = intval($id);
         
-        // Set manufacturer_id to NULL for all products of this partner
-        // (or you could delete the products if preferred)
+        // Đặt manufacturer_id thành NULL cho tất cả sản phẩm của đối tác này
+        // (hoặc có thể xóa sản phẩm nếu muốn)
         $this->conn->query("UPDATE products SET manufacturer_id = NULL WHERE manufacturer_id = {$id}");
         
-        // Now delete the partner
+        // Cuối cùng xóa đối tác
         return $this->delete($id);
     }
 }

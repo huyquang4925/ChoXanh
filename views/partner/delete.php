@@ -1,5 +1,3 @@
-<?php include __DIR__ . '/../../partials/head.php'; ?>
-
 <div class="container mt-4">
     <h3>Xóa Đối tác</h3>
     
@@ -17,4 +15,3 @@
     <?php endif; ?>
 </div>
 
-<?php include __DIR__ . '/../../partials/footer.php'; ?>

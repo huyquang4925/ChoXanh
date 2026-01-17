@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * Category Controller
+ * Bộ điều khiển Danh mục
  */
 class CategoryController extends Controller {
     private $categoryModel;
@@ -15,7 +15,7 @@ class CategoryController extends Controller {
     }
     
     /**
-     * Category page with products
+     * Trang danh mục với danh sách sản phẩm
      */
     public function index() {
         $id = $this->get('id', 0);
@@ -23,7 +23,7 @@ class CategoryController extends Controller {
         
         $category = $this->categoryModel->getCategory($id);
         
-        // Redirect back if category not found
+        // Chuyển hướng nếu không tìm thấy danh mục
         if (!$category) {
             echo '<script>history.back();</script>';
             exit;
@@ -41,7 +41,7 @@ class CategoryController extends Controller {
     }
     
     /**
-     * Admin categories list
+     * Quản lý danh mục (Admin)
      */
     public function admin() {
         $this->requireAdmin();
@@ -54,7 +54,7 @@ class CategoryController extends Controller {
     }
     
     /**
-     * Add category
+     * Thêm danh mục mới
      */
     public function add() {
         $this->requireAdmin();
@@ -85,7 +85,7 @@ class CategoryController extends Controller {
     }
     
     /**
-     * Edit category
+     * Chỉnh sửa danh mục
      */
     public function edit() {
         $this->requireAdmin();
@@ -125,7 +125,7 @@ class CategoryController extends Controller {
     }
     
     /**
-     * Delete category
+     * Xóa danh mục
      */
     public function delete() {
         $this->requireAdmin();

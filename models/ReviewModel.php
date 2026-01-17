@@ -2,13 +2,13 @@
 require_once __DIR__ . '/../core/Model.php';
 
 /**
- * Review Model
+ * Model Đánh giá
  */
 class ReviewModel extends Model {
     protected $table = 'reviews';
     
     /**
-     * Get reviews by product
+     * Lấy đánh giá theo sản phẩm
      */
     public function getByProduct($productId) {
         $productId = intval($productId);
@@ -26,7 +26,7 @@ class ReviewModel extends Model {
     }
     
     /**
-     * Add review
+     * Thêm đánh giá
      */
     public function addReview($userId, $username, $productId, $rating, $comment) {
         return $this->insert([
@@ -39,14 +39,14 @@ class ReviewModel extends Model {
     }
     
     /**
-     * Delete review
+     * Xóa đánh giá
      */
     public function deleteReview($id) {
         return $this->delete($id);
     }
     
     /**
-     * Get average rating for product
+     * Lấy điểm đánh giá trung bình cho sản phẩm
      */
     public function getAverageRating($productId) {
         $productId = intval($productId);

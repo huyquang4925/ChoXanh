@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../core/Controller.php';
 
 /**
- * User Controller
+ * Bộ điều khiển Người dùng
  */
 class UserController extends Controller {
     private $userModel;
@@ -13,7 +13,7 @@ class UserController extends Controller {
     }
     
     /**
-     * Login page
+     * Trang đăng nhập
      */
     public function login() {
         $error = '';
@@ -43,7 +43,7 @@ class UserController extends Controller {
     }
     
     /**
-     * Register page
+     * Trang đăng ký
      */
     public function register() {
         $error = '';
@@ -83,7 +83,7 @@ class UserController extends Controller {
     }
     
     /**
-     * Logout
+     * Đăng xuất
      */
     public function logout() {
         session_destroy();
@@ -91,7 +91,7 @@ class UserController extends Controller {
     }
     
     /**
-     * Profile page
+     * Trang hồ sơ cá nhân
      */
     public function profile() {
         $this->requireLogin();
@@ -105,7 +105,7 @@ class UserController extends Controller {
     }
     
     /**
-     * Edit profile
+     * Chỉnh sửa hồ sơ
      */
     public function profileEdit() {
         $this->requireLogin();
@@ -147,7 +147,7 @@ class UserController extends Controller {
     }
     
     /**
-     * Change password
+     * Đổi mật khẩu
      */
     public function profilePassword() {
         $this->requireLogin();
