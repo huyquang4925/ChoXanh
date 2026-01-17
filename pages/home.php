@@ -56,7 +56,9 @@ $total_pages = ceil($total_products / $limit);
     </div>
 </div>
 
+
 <div class="home-container">
+    
     <!-- Categories Section -->
     <h2 class="section-title">Danh mục nổi bật</h2>
     <div class="categories-grid">

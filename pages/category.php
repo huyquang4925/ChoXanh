@@ -25,6 +25,7 @@ if (!empty($search)) {
     $sql_products .= " AND (p.name LIKE '%$search_safe%' OR p.description LIKE '%$search_safe%')";
 }
 
+
 $products_result = $conn->query($sql_products);
 ?>
 
