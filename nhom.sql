@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 15, 2026 lúc 04:14 PM
+-- Thời gian đã tạo: Th1 17, 2026 lúc 04:00 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -61,7 +61,7 @@ CREATE TABLE `cart_items` (
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`) VALUES
 (4, 1, 1005, 23),
 (7, 1, 4018, 1),
-(8, 1, 1003, 2),
+(8, 1, 1003, 3),
 (12, 1, 4023, 1),
 (13, 1, 1004, 1);
 
@@ -132,7 +132,7 @@ INSERT INTO `nhasanxuat` (`id`, `name`, `description`) VALUES
 (3, 'Minh', 'Minh tồ'),
 (4, 'Cường', 'Tiểu Cường'),
 (5, 'Tuấn Anh', 'Em rank vàng'),
-(801, 'Tấn', 'Tấn campuchia');
+(801, 'Tấn', 'Tấn campuchia ĐB');
 
 -- --------------------------------------------------------
 
@@ -156,7 +156,7 @@ INSERT INTO `orders` (`id`, `user_id`, `total_amount`, `status`, `created_at`) V
 (1, 3, 1700000.00, 'paid', '2025-12-01 10:15:00'),
 (2, 2, 1200000.00, 'shipping', '2025-12-05 14:30:00'),
 (3, 4, 1100000.00, 'completed', '2025-11-20 09:00:00'),
-(4, 3, 295000.00, 'paid', '2025-12-18 16:45:00'),
+(4, 3, 295000.00, 'cancelled', '2025-12-18 16:45:00'),
 (5, 2, 1800000.00, 'cancelled', '2025-12-10 11:00:00');
 
 -- --------------------------------------------------------
@@ -287,7 +287,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `phone`, `role`) VALUES
-(1, 'admin', '1', '', '', 'admin'),
+(1, 'admin', '22', '', '', 'admin'),
 (2, 'An', '2', 'an5@gmail.com', '', 'customer'),
 (3, 'test', '123', 'an@gmail.com', '', 'customer'),
 (4, 'test2', '123', 'an2@gmail.com', '', 'customer'),
@@ -409,7 +409,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `nhasanxuat`
 --
 ALTER TABLE `nhasanxuat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=802;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=803;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
@@ -439,7 +439,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT cho bảng `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `users`

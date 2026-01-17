@@ -1,6 +1,6 @@
 <?php
 // Lấy danh mục
-$limit = 9; 
+$limit = 12; 
 $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
 $page = max($page, 1);
 $offset = ($page - 1) * $limit;
@@ -82,13 +82,13 @@ $total_pages = ceil($total_products / $limit);
 </style>
 <div class="banner-slider">
     <div class="banner-slide active">
-        <img src="images/mansion_test.jpg" alt="Máy lạnh giảm sốc">
+        <img src="images/bang-ron-2026-tet-binh-ngo.png" alt="Máy lạnh giảm sốc">
     </div>
     <div class="banner-slide">
-        <img src="images/mansion_test.jpg" alt="Máy lạnh LG Inverter">
+        <img src="images/banner-ngang-1.png" alt="Máy lạnh LG Inverter">
     </div>
     <div class="banner-slide">
-        <img src="images/mansion_test.jpg" alt="Mua Panasonic trúng xe điện">
+        <img src="images/banner-ngang-2.png" alt="Mua Panasonic trúng xe điện">
     </div>
     
     <div class="banner-dots">
@@ -98,8 +98,8 @@ $total_pages = ceil($total_products / $limit);
     </div>
 </div>
 
-
 <div class="home-container">
+<<<<<<< HEAD
     <div class="search-container">
         <form method="GET" action="index.php">
             <input type="hidden" name="page" value="search">
@@ -107,6 +107,8 @@ $total_pages = ceil($total_products / $limit);
             <button type="submit" class="search-btn">Tìm kiếm</button>
         </form>
     </div>
+=======
+>>>>>>> 642658771c48303e27fbd1b0647bb475d22730e1
     <!-- Categories Section -->
     <h2 class="section-title">Danh mục nổi bật</h2>
     <div class="categories-grid">
@@ -127,15 +129,19 @@ $total_pages = ceil($total_products / $limit);
     <h2 class="section-title"> Sản phẩm nổi bật</h2>
     <div class="categories-wrapper">
         <div class="category-banner">
-            <img src="images/fridge_test.jpg" alt="Banner Điện tử - Điện lạnh">
+            <img src="images/Banner-doc.png" alt="Banner Điện tử - Điện lạnh">
         </div>
         
         <div class="products-grid">
             <?php 
             if (count($featured_products) > 0):
                 foreach($featured_products as $product): 
+                    $discount = rand(20, 50);
+                    $original_price = $product['price'];
+                    $discounted_price = $original_price * (100 - $discount) / 100;
             ?>
                 <div class="product-card" onclick="viewProduct(<?= $product['id'] ?>)">
+                    <div class="product-badge">-<?= $discount ?>%</div>
                     
                     <?php if ($product['stock'] > 0): ?>
                         <div class="stock-badge <?= $product['stock'] < 10 ? 'low' : '' ?>">
@@ -156,7 +162,8 @@ $total_pages = ceil($total_products / $limit);
                     <div class="product-info">
                         <div class="product-name"><?= htmlspecialchars($product['name']) ?></div>
                         <div class="product-price">
-                            <span class="price-new"><?= number_format($product['price'], 0, ',', '.') ?>đ</span>
+                            <span class="price-new"><?= number_format($discounted_price, 0, ',', '.') ?>đ</span>
+                            <span class="price-old"><?= number_format($original_price, 0, ',', '.') ?>đ</span>
                         </div>
                         <form method="post" action="index.php?page=cart_add" style="display:inline;" onsubmit="event.stopPropagation();">
                             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
