@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 17, 2026 lúc 04:00 PM
+-- Thời gian đã tạo: Th1 17, 2026 lúc 11:35 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -59,11 +59,9 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`) VALUES
-(4, 1, 1005, 23),
-(7, 1, 4018, 1),
-(8, 1, 1003, 3),
-(12, 1, 4023, 1),
-(13, 1, 1004, 1);
+(30, 2, 4026, 2),
+(31, 2, 4025, 1),
+(32, 2, 4002, 1);
 
 -- --------------------------------------------------------
 
@@ -86,8 +84,8 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 (3, 'Máy ảnh'),
 (4, 'Thể thao'),
 (5, 'Biệt thự'),
-(7, 'TV'),
-(14, 'test');
+(20, 'TV'),
+(22, 'test');
 
 -- --------------------------------------------------------
 
@@ -103,13 +101,6 @@ CREATE TABLE `news` (
   `created_at` datetime DEFAULT current_timestamp(),
   `author_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `news`
---
-
-INSERT INTO `news` (`id`, `title`, `content`, `image`, `created_at`, `author_id`) VALUES
-(7, '124214', 'ÁDZFXGD', '', '2026-01-15 22:11:11', 1);
 
 -- --------------------------------------------------------
 
@@ -132,7 +123,7 @@ INSERT INTO `nhasanxuat` (`id`, `name`, `description`) VALUES
 (3, 'Minh', 'Minh tồ'),
 (4, 'Cường', 'Tiểu Cường'),
 (5, 'Tuấn Anh', 'Em rank vàng'),
-(801, 'Tấn', 'Tấn campuchia ĐB');
+(809, 'Tấn', '64645');
 
 -- --------------------------------------------------------
 
@@ -153,11 +144,21 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `total_amount`, `status`, `created_at`) VALUES
-(1, 3, 1700000.00, 'paid', '2025-12-01 10:15:00'),
 (2, 2, 1200000.00, 'shipping', '2025-12-05 14:30:00'),
-(3, 4, 1100000.00, 'completed', '2025-11-20 09:00:00'),
-(4, 3, 295000.00, 'cancelled', '2025-12-18 16:45:00'),
-(5, 2, 1800000.00, 'cancelled', '2025-12-10 11:00:00');
+(5, 2, 1800000.00, 'cancelled', '2025-12-10 11:00:00'),
+(6, 1, 123141.00, 'pending', '2026-01-17 16:25:56'),
+(7, 1, 7750000.00, 'pending', '2026-01-18 01:07:01'),
+(8, 1, 31999999.00, 'paid', '2026-01-18 01:07:53'),
+(9, 1, 1250000.00, 'shipping', '2026-01-18 01:15:39'),
+(10, 2, 450000.00, 'pending', '2026-01-18 01:17:51'),
+(11, 1, 1250001.00, 'pending', '2026-01-17 19:31:11'),
+(12, 1, 1250000.00, 'pending', '2026-01-18 03:16:07'),
+(13, 2, 31999999.00, 'pending', '2026-01-18 03:24:22'),
+(14, 2, 1250000.00, 'paid', '2026-01-18 03:24:51'),
+(15, 1, 6500000.00, 'pending', '2026-01-18 03:38:37'),
+(16, 2, 13360000.00, 'shipping', '2026-01-18 03:43:38'),
+(17, 2, 1250000.00, 'paid', '2026-01-18 04:02:28'),
+(18, 1, 720000.00, 'pending', '2026-01-18 05:07:10');
 
 -- --------------------------------------------------------
 
@@ -178,13 +179,22 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`) VALUES
-(1, 1, 1003, 1, 450000.00),
-(2, 1, 1004, 1, 1250000.00),
 (3, 2, 4007, 2, 600000.00),
-(4, 3, 1006, 1, 1100000.00),
-(5, 4, 4001, 3, 90000.00),
-(6, 4, 4004, 1, 25000.00),
-(7, 5, 1007, 1, 1800000.00);
+(9, 7, 1004, 1, 1250000.00),
+(10, 7, 1005, 1, 6500000.00),
+(11, 8, 4024, 1, 31999999.00),
+(12, 9, 1004, 1, 1250000.00),
+(13, 10, 1003, 1, 450000.00),
+(14, 11, 1004, 1, 1250000.00),
+(16, 12, 1004, 1, 1250000.00),
+(17, 13, 4024, 1, 31999999.00),
+(18, 14, 1004, 1, 1250000.00),
+(19, 15, 1005, 1, 6500000.00),
+(20, 16, 4001, 4, 90000.00),
+(21, 16, 1005, 2, 6500000.00),
+(22, 17, 1004, 1, 1250000.00),
+(23, 18, 4007, 1, 600000.00),
+(24, 18, 4006, 1, 120000.00);
 
 -- --------------------------------------------------------
 
@@ -199,6 +209,14 @@ CREATE TABLE `payments` (
   `payment_status` enum('pending','success','failed') DEFAULT 'pending',
   `paid_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `payments`
+--
+
+INSERT INTO `payments` (`id`, `order_id`, `payment_method`, `payment_status`, `paid_at`) VALUES
+(1, 6, 'banking', 'pending', '2026-01-17 16:25:56'),
+(2, 11, 'cod', 'pending', '2026-01-17 19:31:11');
 
 -- --------------------------------------------------------
 
@@ -222,27 +240,30 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `stock`, `description`, `image`, `manufacturer_id`, `category_id`) VALUES
-(1003, 'Chuột không dây Logitech', 450000.00, 49, 'Kết nối Wireless, độ nhạy cao', 'wireless_mouse.jpg', 801, 1),
-(1004, 'Bàn phím cơ AKKO 3068', 1250000.00, 56, 'Switch gõ êm, đèn LED RGB', 'keyboard_test.jpg', 801, 1),
-(1005, 'Màn hình Dell UltraSharp', 6500000.00, 564, 'Độ phân giải 2K, màu sắc chuẩn đồ họa', 'monitor_test.jpg', 801, 1),
-(1006, 'Ổ cứng SSD Samsung 500GB', 1100000.00, 768, 'Tốc độ đọc ghi cực nhanh', 'ssd_test.jpg', 801, 1),
-(1007, 'Tai nghe Gaming HyperX', 1800000.00, 76, 'Âm thanh vòm 7.1 sống động', 'headphone_test.png', 801, 1),
-(4001, 'Quần thể thao Nam', 90000.00, 49, 'quần thể thao XL', 'pant_test.jpg', 801, 4),
-(4002, 'Áo thể thao XL màu trắng', 90000.00, 776, 'là áo thể thao ......', 'shirt_test.jpg', 801, 4),
-(4003, 'Áo khoác gió nhẹ', 150000.00, 49, 'Chống nắng và cản gió hiệu quả', 'coat_test.jpg', 801, 4),
+(1003, 'Chuột không dây Logitech', 450000.00, 49, 'Kết nối Wireless, độ nhạy cao', 'wireless_mouse.jpg', NULL, 1),
+(1004, 'Bàn phím cơ AKKO 306', 1250000.00, 56, 'Switch gõ êm, đèn LED RGB', '1768687465_696c076994173.jpg', 809, 1),
+(1005, 'Màn hình Dell UltraSharp', 6500000.00, 564, 'Độ phân giải 2K, màu sắc chuẩn đồ họa', 'monitor_test.jpg', NULL, 1),
+(1006, 'Ổ cứng SSD Samsung 500GB', 1100000.00, 768, 'Tốc độ đọc ghi cực nhanh', 'ssd_test.jpg', NULL, 1),
+(4001, 'Quần thể thao Nam', 90000.00, 49, 'quần thể thao XL', 'pant_test.jpg', NULL, 4),
+(4002, 'Áo thể thao XL màu trắng', 90000.00, 776, 'là áo thể thao ......', 'shirt_test.jpg', NULL, 4),
+(4003, 'Áo khoác gió nhẹ', 150000.00, 49, 'Chống nắng và cản gió hiệu quả', 'coat_test.jpg', NULL, 4),
 (4004, 'Tất thể thao cổ ngắn', 25000.00, 56, 'Combo 3 đôi tất cotton cao cấp', 'sock_test.jpg', 4, 4),
-(4005, 'Băng bảo vệ cổ tay', 45000.00, 564, 'Hỗ trợ bảo vệ khớp khi nâng tạ', 'protect_wrist_test.jpg', 801, 4),
-(4006, 'Bình nước thể thao 1L', 120000.00, 768, 'Nhựa BPA Free an toàn', 'water_test.jpg', 801, 4),
-(4007, 'Thảm tập Yoga cao cấp', 600000.00, 76, 'Độ bám cao, chất liệu TPE', 'carpet_test.jpg', 801, 4),
-(4018, 'ad', 1212423.00, 123, 'asd', '1766346816_8ff71621.jpg', 4, 14),
-(4020, 'asd', 123141.00, 1245, 'asddaw', '1766346944_ffea56d6.jpg', 3, 14),
-(4021, 'dsrgd', 23421.00, 2134, 'test', '1766347095_bbe8a49c.webp', 801, 14),
+(4005, 'Băng bảo vệ cổ tay', 45000.00, 564, 'Hỗ trợ bảo vệ khớp khi nâng tạ', 'protect_wrist_test.jpg', NULL, 4),
+(4006, 'Bình nước thể thao 1L', 120000.00, 768, 'Nhựa BPA Free an toàn', 'water_test.jpg', NULL, 4),
+(4007, 'Thảm tập Yoga cao cấp', 600000.00, 76, 'Độ bám cao, chất liệu TPE', 'carpet_test.jpg', NULL, 4),
 (4023, 'Tủ lạnh LG', 10000000.00, 22, '1 cái tủ lạnh', '1766522938_17686b8b.jpg', 2, 2),
 (4024, 'Tủ lạnh Hitachi', 31999999.00, 312, 'vẫn là tủ lạnh nhưng màu đen', '1766523002_2b77d7aa.jpg', 2, 2),
 (4025, 'Canon EOS R10 Kit', 1012830178.00, 23, '1 cái máy ảnh khá là đắt', '1766523106_f4c9fd78.png', 2, 3),
 (4026, 'Sony Alpha a6400 kit', 100000.00, 1231, 'rẻ', '1766523161_8f6bf6a5.jpg', 2, 3),
-(4027, 'Nhà của Tấn', 9999999999.99, 1, 'hẳn 1 cái biệt thự', '1766523350_d34110d6.jpg', 801, 5),
-(4028, '55″ 4K Ultra HD Smart TV | 55GM6141E', 60000000.00, 3, '1 cái TV để xem(hoặc trưng bày)', '1766523647_5daab078.jpg', 2, 7);
+(4027, 'Nhà của Tấn', 9999999999.00, 1, 'hẳn 1 cái biệt thự', '1766523350_d34110d6.jpg', NULL, 5),
+(4036, 'tivi', 100000000.00, 1, 'hjnkml,', '1768687356_696c06fc89dbe.jpg', 809, 20),
+(4041, 'adfasF', 1200000.00, 4, 'SADRFd', '1768687380_696c07144fb17.jpg', 5, 22),
+(4043, 'Ư42132', 12321.00, 44, 'AEG AFHD', '1768684277_696bfaf5b8705.jpg', 4, 22),
+(4044, 'RTRETREY', 3453453464.00, 1, 'ÉDFSFTGSE', '1768684321_696bfb211cf08.jpg', 2, 22),
+(4045, '124dsdasfa', 31412413.00, 2121, 'qAZrfer', '1768684341_696bfb350a696.jpg', 3, 22),
+(4046, 'DFJASFHA', 1234.00, 12, 'QẮDeas', '1768685109_696bfe35f0ec4.jpg', 809, 22),
+(4047, 'aeAWSafa', 454.00, 343, 'eDRdfd', '1768685127_696bfe47050ba.jpg', 4, 22),
+(4048, '4 rf TJNhb', 24232.00, 121, 'Rrfsyguj', '1768687331_696c06e30b7a1.jpg', 809, 22);
 
 -- --------------------------------------------------------
 
@@ -265,7 +286,10 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `user_id`, `username`, `product_id`, `rating`, `comment`, `created_at`) VALUES
-(21, 1, 'admin', 1005, 5, '5et7usrt', '2026-01-15 22:08:43');
+(21, 1, 'admin', 1005, 5, '5et7usrt', '2026-01-15 22:08:43'),
+(28, 2, 'An', 4023, 5, '4154656', '2026-01-18 01:17:56'),
+(30, 1, 'admin', 1004, 5, '5641651', '2026-01-18 02:42:33'),
+(31, 1, 'admin', 1004, 5, '897456213', '2026-01-18 02:42:48');
 
 -- --------------------------------------------------------
 
@@ -287,11 +311,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `phone`, `role`) VALUES
-(1, 'admin', '22', '', '', 'admin'),
-(2, 'An', '2', 'an5@gmail.com', '', 'customer'),
-(3, 'test', '123', 'an@gmail.com', '', 'customer'),
-(4, 'test2', '123', 'an2@gmail.com', '', 'customer'),
-(5, 'An2', '123', 'an8@gmail.com', '0766432452', 'customer');
+(1, 'admin', '22', 'h36661239@gmail.com', '61546', 'admin'),
+(2, 'An', '12345678', 'an5@gmail.com', '123456789', 'customer'),
+(10, 'Minh', '1', 'gtyuhghbyu@gmail.com', NULL, 'customer');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -391,61 +413,61 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `nhasanxuat`
 --
 ALTER TABLE `nhasanxuat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=803;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=810;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4029;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4050;
 
 --
 -- AUTO_INCREMENT cho bảng `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
