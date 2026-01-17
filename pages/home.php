@@ -37,7 +37,49 @@ $total_pages = ceil($total_products / $limit);
 ?>
 
 <link rel="stylesheet" href="css/home.css">
+<style>
+.search-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
 
+.search-container form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 15px 20px;
+    border: 2px solid #ecf0f1;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.search-btn {
+    padding: 15px 30px;
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background: #c0392b;
+    transform: scale(1.02);
+}
+</style>
 <div class="banner-slider">
     <div class="banner-slide active">
         <img src="images/mansion_test.jpg" alt="Máy lạnh giảm sốc">
@@ -58,7 +100,13 @@ $total_pages = ceil($total_products / $limit);
 
 
 <div class="home-container">
-    
+    <div class="search-container">
+        <form method="GET" action="index.php">
+            <input type="hidden" name="page" value="search">
+            <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm..." class="search-input">
+            <button type="submit" class="search-btn">Tìm kiếm</button>
+        </form>
+    </div>
     <!-- Categories Section -->
     <h2 class="section-title">Danh mục nổi bật</h2>
     <div class="categories-grid">
