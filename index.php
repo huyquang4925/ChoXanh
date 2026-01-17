@@ -14,7 +14,7 @@ $allowedPages = ['home', 'about_us', 'product', 'contact',
     'partner_add', 'partner_edit', 'partner_delete', 'admin_staff',
      'staff_add', 'staff_edit', 'staff_delete', 'admin_orders', 'order_view',
       'cart', 'cart_add', 'cart_update', 'cart_remove','partners_detail', 'profile',
-       'settings', 'edit_profile', 'lichsu', 'payment', "profile_edit", "profile_password"];
+       'settings', 'edit_profile', 'lichsu', 'payment', "profile_edit", "profile_password",'review_add','news_add','review_del','news'];
 
 // Kiểm tra page có hợp lệ không
 if (!in_array($page, $allowedPages)) {
