@@ -4,24 +4,14 @@ $limit = 12;
 $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
 $page = max($page, 1);
 $offset = ($page - 1) * $limit;
-$keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
-$search_condition = '';
-if (!empty($keyword)) {
-    $search_condition = "WHERE p.name LIKE '%" . $conn->real_escape_string($keyword) . "%' 
-                         OR c.name LIKE '%" . $conn->real_escape_string($keyword) . "%'";
-}
 $sql_categories = "SELECT * FROM categories LIMIT 6";
 $categories_result = $conn->query($sql_categories);
-
-
-
 
 // Lấy sản phẩm
 $sql_products = "
     SELECT p.*, c.name AS category_name
     FROM products p
     LEFT JOIN categories c ON p.category_id = c.id
-    $search_condition
     ORDER BY p.id DESC
     LIMIT $limit OFFSET $offset
 ";
@@ -39,8 +29,7 @@ if ($products_result) {
 $featured_products = $products; // Hiển thị sản phẩm theo trang
 
 // Tính tổng số sản phẩm để phân trang
-$total_sql = "SELECT COUNT(*) AS total FROM products p LEFT JOIN categories c ON p.category_id = c.id $search_condition";
-$total_result = $conn->query($total_sql);
+$total_result = $conn->query("SELECT COUNT(*) AS total FROM products");
 $total_row = $total_result->fetch_assoc();
 $total_products = $total_row['total'];
 
@@ -48,49 +37,7 @@ $total_pages = ceil($total_products / $limit);
 ?>
 
 <link rel="stylesheet" href="css/home.css">
-<style>
-.search-container {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 0 20px;
-}
 
-.search-container form {
-    display: flex;
-    gap: 10px;
-}
-
-.search-input {
-    flex: 1;
-    padding: 15px 20px;
-    border: 2px solid #ecf0f1;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
-
-.search-input:focus {
-    outline: none;
-    border-color: #e74c3c;
-    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
-}
-
-.search-btn {
-    padding: 15px 30px;
-    background: #e74c3c;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.search-btn:hover {
-    background: #c0392b;
-    transform: scale(1.02);
-}
-</style>
 <div class="banner-slider">
     <div class="banner-slide active">
         <img src="images/bang-ron-2026-tet-binh-ngo.png" alt="Máy lạnh giảm sốc">
@@ -110,12 +57,6 @@ $total_pages = ceil($total_products / $limit);
 </div>
 
 <div class="home-container">
-    <form method="GET" action="index.php">
-    <input type="hidden" name="page" value="home"> <!-- ← SỬA TỪ "search" THÀNH "home" -->
-    <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm..." class="search-input" 
-           value="<?= htmlspecialchars($keyword) ?>"> <!-- Thêm value để giữ từ khóa -->
-    <button type="submit" class="search-btn">Tìm kiếm</button>
-</form>
     <!-- Categories Section -->
     <h2 class="section-title">Danh mục nổi bật</h2>
     <div class="categories-grid">

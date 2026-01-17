@@ -25,7 +25,6 @@ if (!empty($search)) {
     $sql_products .= " AND (p.name LIKE '%$search_safe%' OR p.description LIKE '%$search_safe%')";
 }
 
-
 $products_result = $conn->query($sql_products);
 ?>
 
@@ -84,8 +83,12 @@ $products_result = $conn->query($sql_products);
 
         <!-- Products Grid -->
         <div class="products-grid" id="productsGrid">
-            <?php while ($product = $products_result->fetch_assoc()): ?>
+            <?php while ($product = $products_result->fetch_assoc()): 
+                $discount = rand(20, 50);
+                $discounted_price = $product['price'] * (100 - $discount) / 100;
+            ?>
                 <div class="product-card" onclick="viewProduct(<?= $product['id'] ?>)">
+                    <div class="product-badge">-<?= $discount ?>%</div>
                     
                     <?php if ($product['stock'] > 0): ?>
                         <div class="stock-badge <?= $product['stock'] < 10 ? 'low' : '' ?>">
@@ -113,7 +116,10 @@ $products_result = $conn->query($sql_products);
                     <div class="product-info">
                         <div class="product-name"><?= htmlspecialchars($product['name']) ?></div>
                         <div class="product-price">
-                            <span class="price-new"><?= number_format($product['price'], 0, ',', '.') ?>đ</span>
+                            <span class="price-new"><?= number_format($discounted_price, 0, ',', '.') ?>đ</span>
+                            <span style="font-size: 14px; color: #95a5a6; text-decoration: line-through;">
+                                <?= number_format($product['price'], 0, ',', '.') ?>đ
+                            </span>
                         </div>
                         <form method="post" action="index.php?page=cart_add" style="display:inline;" onsubmit="event.stopPropagation();">
                             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">

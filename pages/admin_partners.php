@@ -1,6 +1,13 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) session_start();
 
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    echo '<div class="container mt-4">
+            <div class="alert alert-danger">Không có quyền truy cập.</div>
+          </div>';
+    return;
+}
 include __DIR__ . '/../config/db.php';
 
 $sql = "SELECT n.id, n.name, n.description, COUNT(p.id) as product_count
