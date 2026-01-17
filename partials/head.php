@@ -1,4 +1,7 @@
 <?php
+/**
+ * Header Partial - MVC Compatible
+ */
 $isLoggedIn = false;
 $username = '';
 $role = '';
@@ -7,15 +10,23 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../config/db.php';
+// Use Database class if available, otherwise fallback to old config
+if (class_exists('Database')) {
+    $db = Database::getInstance();
+    $conn = $db->getConnection();
+} else {
+    require_once __DIR__ . '/../config/db.php';
+}
 
 $sql = "SELECT id, name FROM categories";
 $result = $conn->query($sql);
 
 // Lưu tất cả categories vào mảng
-$categories = [];
-while ($row = $result->fetch_assoc()) {
-    $categories[] = $row;
+$headerCategories = [];
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $headerCategories[] = $row;
+    }
 }
 
 if (isset($_SESSION['user_id'])) {
@@ -55,10 +66,10 @@ if (isset($_SESSION['user_id'])) {
                     <?php
                     // Hiển thị 8 categories đầu tiên
                     $visibleCount = 8;
-                    $totalCategories = count($categories);
+                    $totalCategories = count($headerCategories);
 
                     for ($i = 0; $i < min($visibleCount, $totalCategories); $i++):
-                        $cat = $categories[$i];
+                        $cat = $headerCategories[$i];
                         ?>
                         <li>
                             <a href="index.php?page=category&id=<?= $cat['id'] ?>">
@@ -92,6 +103,12 @@ if (isset($_SESSION['user_id'])) {
                                 <div class="icon-circle"><i class="fas fa-user-circle"></i></div>
                                 <span>Thông tin cá nhân</span>
                             </a>
+                            <?php if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin'): ?>
+                            <a href="index.php?page=lichsu">
+                                <div class="icon-circle"><i class="fas fa-history"></i></div>
+                                <span>Lịch sử đơn hàng</span>
+                            </a>
+                            <?php endif; ?>
                             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                                 <a href="index.php?page=admin_categories">
                                     <div class="icon-circle"><i class="fas fa-list"></i></div>
