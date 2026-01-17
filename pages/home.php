@@ -4,14 +4,24 @@ $limit = 12;
 $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
 $page = max($page, 1);
 $offset = ($page - 1) * $limit;
+$keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
+$search_condition = '';
+if (!empty($keyword)) {
+    $search_condition = "WHERE p.name LIKE '%" . $conn->real_escape_string($keyword) . "%' 
+                         OR c.name LIKE '%" . $conn->real_escape_string($keyword) . "%'";
+}
 $sql_categories = "SELECT * FROM categories LIMIT 6";
 $categories_result = $conn->query($sql_categories);
+
+
+
 
 // Lấy sản phẩm
 $sql_products = "
     SELECT p.*, c.name AS category_name
     FROM products p
     LEFT JOIN categories c ON p.category_id = c.id
+    $search_condition
     ORDER BY p.id DESC
     LIMIT $limit OFFSET $offset
 ";
@@ -29,7 +39,8 @@ if ($products_result) {
 $featured_products = $products; // Hiển thị sản phẩm theo trang
 
 // Tính tổng số sản phẩm để phân trang
-$total_result = $conn->query("SELECT COUNT(*) AS total FROM products");
+$total_sql = "SELECT COUNT(*) AS total FROM products p LEFT JOIN categories c ON p.category_id = c.id $search_condition";
+$total_result = $conn->query($total_sql);
 $total_row = $total_result->fetch_assoc();
 $total_products = $total_row['total'];
 
@@ -99,7 +110,6 @@ $total_pages = ceil($total_products / $limit);
 </div>
 
 <div class="home-container">
-<<<<<<< HEAD
     <div class="search-container">
         <form method="GET" action="index.php">
             <input type="hidden" name="page" value="search">
@@ -107,8 +117,6 @@ $total_pages = ceil($total_products / $limit);
             <button type="submit" class="search-btn">Tìm kiếm</button>
         </form>
     </div>
-=======
->>>>>>> 642658771c48303e27fbd1b0647bb475d22730e1
     <!-- Categories Section -->
     <h2 class="section-title">Danh mục nổi bật</h2>
     <div class="categories-grid">
