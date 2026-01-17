@@ -110,13 +110,12 @@ $total_pages = ceil($total_products / $limit);
 </div>
 
 <div class="home-container">
-    <div class="search-container">
-        <form method="GET" action="index.php">
-            <input type="hidden" name="page" value="search">
-            <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm..." class="search-input">
-            <button type="submit" class="search-btn">Tìm kiếm</button>
-        </form>
-    </div>
+    <form method="GET" action="index.php">
+    <input type="hidden" name="page" value="home"> <!-- ← SỬA TỪ "search" THÀNH "home" -->
+    <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm..." class="search-input" 
+           value="<?= htmlspecialchars($keyword) ?>"> <!-- Thêm value để giữ từ khóa -->
+    <button type="submit" class="search-btn">Tìm kiếm</button>
+</form>
     <!-- Categories Section -->
     <h2 class="section-title">Danh mục nổi bật</h2>
     <div class="categories-grid">
