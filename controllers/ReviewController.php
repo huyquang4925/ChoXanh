@@ -43,7 +43,7 @@ class ReviewController extends Controller {
      */
     public function delete() {
         // Chỉ admin hoặc user 'test' mới có thể xóa
-        if (!$this->isAdmin() && $this->getUsername() !== 'test') {
+        if (!$this->isAdmin()) {
             echo '<script>alert("Bạn không có quyền xóa đánh giá!"); history.back();</script>';
             exit;
         }

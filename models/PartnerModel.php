@@ -48,7 +48,6 @@ class PartnerModel extends Model {
         $id = intval($id);
         
         // Đặt manufacturer_id thành NULL cho tất cả sản phẩm của đối tác này
-        // (hoặc có thể xóa sản phẩm nếu muốn)
         $this->conn->query("UPDATE products SET manufacturer_id = NULL WHERE manufacturer_id = {$id}");
         
         // Cuối cùng xóa đối tác

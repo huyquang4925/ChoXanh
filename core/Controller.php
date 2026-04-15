@@ -1,8 +1,5 @@
 <?php
-/**
- * Lớp Controller cơ sở
- * Tất cả các controller phải kế thừa lớp này
- */
+
 class Controller {
     protected $db;
     protected $conn;
@@ -15,10 +12,26 @@ class Controller {
         $this->db = Database::getInstance();
         $this->conn = $this->db->getConnection();
     }
+
     
-    /**
-     * Tải một model
-     */
+    protected function callAPI($method, $url, $data = false) {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+        if (strtoupper($method) == "POST") {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            if ($data) curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+        }
+        
+        $result = curl_exec($curl);
+        curl_close($curl);
+        
+        return json_decode($result, true);
+    }
+
+    
     protected function model($model) {
         $modelFile = __DIR__ . '/../models/' . $model . '.php';
         
@@ -30,17 +43,17 @@ class Controller {
         return null;
     }
     
-    /**
-     * Hiển thị một view
-     */
+   
+    protected function json($data) {
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
+    }
+    
+   
     protected function view($view, $data = []) {
-        // Trích xuất dữ liệu thành biến
         extract($data);
-        
-        // Truyền conn để tương thích ngược
         $conn = $this->conn;
-        
-        // Include the view file
         $viewFile = __DIR__ . '/../views/' . $view . '.php';
         
         if (file_exists($viewFile)) {
@@ -50,9 +63,7 @@ class Controller {
         }
     }
     
-    /**
-     * Chuyển hướng đến trang khác
-     */
+   
     protected function redirect($url) {
         if (!headers_sent()) {
             header('Location: ' . $url);
@@ -63,69 +74,43 @@ class Controller {
         exit;
     }
     
-    /**
-     * Kiểm tra người dùng đã đăng nhập
-     */
+   
     protected function isLoggedIn() {
         return isset($_SESSION['user_id']);
     }
     
-    /**
-     * Kiểm tra người dùng là admin
-     */
     protected function isAdmin() {
         return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     }
     
-    /**
-     * Get current user ID
-     */
     protected function getUserId() {
         return isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
     }
     
-    /**
-     * Get current username
-     */
     protected function getUsername() {
         return isset($_SESSION['username']) ? $_SESSION['username'] : '';
     }
     
-    /**
-     * Require login
-     */
     protected function requireLogin() {
         if (!$this->isLoggedIn()) {
             $this->redirect('index.php?page=login');
         }
     }
     
-    /**
-     * Require admin
-     */
     protected function requireAdmin() {
         if (!$this->isAdmin()) {
             $this->redirect('index.php?page=home');
         }
     }
     
-    /**
-     * Get POST data
-     */
     protected function post($key, $default = null) {
         return isset($_POST[$key]) ? $_POST[$key] : $default;
     }
     
-    /**
-     * Get GET data
-     */
     protected function get($key, $default = null) {
         return isset($_GET[$key]) ? $_GET[$key] : $default;
     }
     
-    /**
-     * Get REQUEST data
-     */
     protected function request($key, $default = null) {
         return isset($_REQUEST[$key]) ? $_REQUEST[$key] : $default;
     }

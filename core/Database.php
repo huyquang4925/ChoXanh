@@ -15,7 +15,7 @@ class Database {
             die("Kết nối thất bại: " . $this->conn->connect_error);
         }
         
-        $this->conn->set_charset("utf8");
+        $this->conn->set_charset("utf8"); 
     }
     
     public static function getInstance() {
