@@ -16,18 +16,14 @@ class ProductApi extends Api {
         $action = $this->getParam('action');
 
         switch ($action) {
+
+            // Lấy danh sách tất cả sản phẩm
             case 'list':
-                $limit   = $this->getParam('limit',  null);
-                $offset  = $this->getParam('offset', null);
-                $orderBy = $this->getParam('order',  'id DESC');
-
-                $limit  = $limit  !== '' ? intval($limit)  : null;
-                $offset = $offset !== '' ? intval($offset) : null;
-
-                $products = $this->productModel->getProductsWithCategory($limit, $offset, $orderBy);
+                $products = $this->productModel->getProductsWithCategory();
                 $this->response(true, $products);
                 break;
 
+            // Lấy chi tiết một sản phẩm theo id
             case 'get':
                 $id = intval($this->getParam('id', 0));
                 if ($id <= 0) {
@@ -41,67 +37,48 @@ class ProductApi extends Api {
                 }
                 break;
 
+            // Tìm kiếm sản phẩm theo từ khóa
             case 'search':
-                $keyword = trim($this->getParam('keyword', ''));
-                if (empty($keyword)) {
-                    $this->response(false, [], "Vui lòng nhập từ khóa tìm kiếm");
-                }
-                $limit  = $this->getParam('limit',  null);
-                $offset = $this->getParam('offset', null);
-                $limit  = $limit  !== '' ? intval($limit)  : null;
-                $offset = $offset !== '' ? intval($offset) : null;
-
-                $products = $this->productModel->searchProducts($keyword, $limit, $offset);
+                $keyword  = trim($this->getParam('keyword', ''));
+                $products = $this->productModel->searchProducts($keyword);
                 $total    = $this->productModel->countSearchResults($keyword);
-                $this->response(true, [
-                    'total'    => $total,
-                    'products' => $products
-                ]);
+                $this->response(true, ['total' => $total, 'products' => $products]);
                 break;
 
+            // Lấy sản phẩm theo danh mục
             case 'by_category':
                 $categoryId = intval($this->getParam('category_id', 0));
                 if ($categoryId <= 0) {
                     $this->response(false, [], "category_id không hợp lệ");
                 }
-                $keyword  = trim($this->getParam('keyword', ''));
-                $products = $this->productModel->getByCategory($categoryId, $keyword);
+                $products = $this->productModel->getByCategory($categoryId);
                 $this->response(true, $products);
                 break;
 
-            case 'by_manufacturer':
-                $manufacturerId = intval($this->getParam('manufacturer_id', 0));
-                if ($manufacturerId <= 0) {
-                    $this->response(false, [], "manufacturer_id không hợp lệ");
-                }
-                $products = $this->productModel->getByManufacturer($manufacturerId);
-                $this->response(true, $products);
-                break;
-
+            // Thêm sản phẩm mới
             case 'add':
-                $name            = trim($this->input['name']            ?? '');
-                $price           = $this->input['price']           ?? null;
-                $stock           = $this->input['stock']           ?? 0;
-                $categoryId      = intval($this->input['category_id']    ?? 0);
-                $manufacturerId  = intval($this->input['manufacturer_id'] ?? 0);
-                $description     = trim($this->input['description']  ?? '');
-                $image           = trim($this->input['image']        ?? '');
+                $name           = trim($this->input['name']            ?? '');
+                $price          = $this->input['price']                ?? null;
+                $stock          = $this->input['stock']                ?? 0;
+                $categoryId     = intval($this->input['category_id']   ?? 0);
+                $manufacturerId = intval($this->input['manufacturer_id'] ?? 0);
+                $description    = trim($this->input['description']     ?? '');
+                $image          = trim($this->input['image']           ?? '');
 
                 if (empty($name) || $price === null) {
                     $this->response(false, [], "Vui lòng điền đầy đủ tên và giá sản phẩm");
                 }
 
-                $data = [
+                $newId = $this->productModel->addProduct([
                     'name'            => $name,
                     'price'           => floatval($price),
                     'stock'           => intval($stock),
-                    'category_id'     => $categoryId > 0 ? $categoryId : null,
-                    'manufacturer_id' => $manufacturerId > 0 ? $manufacturerId : null,
+                    'category_id'     => $categoryId,
+                    'manufacturer_id' => $manufacturerId,
                     'description'     => $description,
                     'image'           => $image
-                ];
+                ]);
 
-                $newId = $this->productModel->addProduct($data);
                 if ($newId) {
                     $this->response(true, ['id' => $newId], "Thêm sản phẩm thành công");
                 } else {
@@ -109,6 +86,7 @@ class ProductApi extends Api {
                 }
                 break;
 
+            // Cập nhật sản phẩm
             case 'update':
                 $id = intval($this->input['id'] ?? 0);
                 if ($id <= 0) {
@@ -129,9 +107,10 @@ class ProductApi extends Api {
                 }
 
                 $success = $this->productModel->updateProduct($id, $data);
-                $this->response($success, [], $success ? "Cập nhật sản phẩm thành công" : "Cập nhật sản phẩm thất bại");
+                $this->response($success, [], $success ? "Cập nhật thành công" : "Cập nhật thất bại");
                 break;
 
+            // Xóa sản phẩm
             case 'delete':
                 $id = intval($this->input['id'] ?? 0);
                 if ($id <= 0) {
@@ -139,7 +118,7 @@ class ProductApi extends Api {
                 }
 
                 $success = $this->productModel->deleteProduct($id);
-                $this->response($success, [], $success ? "Xóa sản phẩm thành công" : "Xóa sản phẩm thất bại");
+                $this->response($success, [], $success ? "Xóa thành công" : "Xóa thất bại");
                 break;
 
             default:

@@ -16,11 +16,20 @@ class UserApi extends Api {
         $action = $this->getParam('action');
 
         switch ($action) {
+
+            // Lấy danh sách nhân viên
             case 'list':
                 $users = $this->userModel->getStaff();
                 $this->response(true, $users);
                 break;
 
+            // Lấy danh sách khách hàng
+            case 'customers':
+                $customers = $this->userModel->getCustomers();
+                $this->response(true, $customers);
+                break;
+
+            // Lấy thông tin một người dùng theo id
             case 'get':
                 $id = intval($this->getParam('id', 0));
                 if ($id <= 0) {
@@ -28,13 +37,14 @@ class UserApi extends Api {
                 }
                 $user = $this->userModel->findById($id);
                 if ($user) {
-                    unset($user['password']);
+                    unset($user['password']); // không trả password ra ngoài
                     $this->response(true, $user);
                 } else {
                     $this->response(false, [], "Không tìm thấy người dùng");
                 }
                 break;
 
+            // Thêm người dùng mới
             case 'add':
                 $username = trim($this->input['username'] ?? '');
                 $email    = trim($this->input['email']    ?? '');
@@ -50,15 +60,14 @@ class UserApi extends Api {
                     $this->response(false, [], "Username hoặc email đã tồn tại");
                 }
 
-                $data = [
+                $newId = $this->userModel->insert([
                     'username' => $username,
                     'email'    => $email,
                     'password' => $password,
                     'phone'    => $phone,
                     'role'     => $role
-                ];
+                ]);
 
-                $newId = $this->userModel->insert($data);
                 if ($newId) {
                     $this->response(true, ['id' => $newId], "Thêm người dùng thành công");
                 } else {
@@ -66,6 +75,7 @@ class UserApi extends Api {
                 }
                 break;
 
+            // Cập nhật thông tin người dùng
             case 'update':
                 $id = intval($this->input['id'] ?? 0);
                 if ($id <= 0) {
@@ -73,22 +83,11 @@ class UserApi extends Api {
                 }
 
                 $data = [];
-
-                if (!empty($this->input['username'])) {
-                    $data['username'] = trim($this->input['username']);
-                }
-                if (!empty($this->input['email'])) {
-                    $data['email'] = trim($this->input['email']);
-                }
-                if (!empty($this->input['phone'])) {
-                    $data['phone'] = trim($this->input['phone']);
-                }
-                if (!empty($this->input['role'])) {
-                    $data['role'] = trim($this->input['role']);
-                }
-                if (!empty($this->input['password'])) {
-                    $data['password'] = trim($this->input['password']);
-                }
+                if (!empty($this->input['username'])) $data['username'] = trim($this->input['username']);
+                if (!empty($this->input['email']))    $data['email']    = trim($this->input['email']);
+                if (!empty($this->input['phone']))    $data['phone']    = trim($this->input['phone']);
+                if (!empty($this->input['role']))     $data['role']     = trim($this->input['role']);
+                if (!empty($this->input['password'])) $data['password'] = trim($this->input['password']);
 
                 if (empty($data)) {
                     $this->response(false, [], "Không có dữ liệu để cập nhật");
@@ -98,6 +97,7 @@ class UserApi extends Api {
                 $this->response($success, [], $success ? "Cập nhật thành công" : "Cập nhật thất bại");
                 break;
 
+            // Xóa người dùng
             case 'delete':
                 $id = intval($this->input['id'] ?? 0);
                 if ($id <= 0) {
@@ -105,12 +105,7 @@ class UserApi extends Api {
                 }
 
                 $success = $this->userModel->deleteUser($id);
-                $this->response($success, [], $success ? "Xóa người dùng thành công" : "Xóa người dùng thất bại");
-                break;
-
-            case 'customers':
-                $customers = $this->userModel->getCustomers();
-                $this->response(true, $customers);
+                $this->response($success, [], $success ? "Xóa thành công" : "Xóa thất bại");
                 break;
 
             default:
