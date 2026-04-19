@@ -36,15 +36,21 @@ class StaffController extends Controller {
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $this->post('username');
-            $email = $this->post('email');
+            $email    = $this->post('email');
             $password = $this->post('password');
+            $role     = $this->post('role', 'customer'); // lấy role từ form, mặc định là customer
+
+            // Chỉ cho phép 2 giá trị hợp lệ
+            if (!in_array($role, ['admin', 'customer'])) {
+                $role = 'customer';
+            }
             
             if (empty($username) || empty($email) || empty($password)) {
                 $error = 'Vui lòng điền đầy đủ thông tin';
             } elseif ($this->userModel->exists($username, $email)) {
                 $error = 'Tên đăng nhập hoặc email đã tồn tại';
             } else {
-                $result = $this->userModel->register($username, $email, $password, 'admin');
+                $result = $this->userModel->register($username, $email, $password, $role);
                 
                 if ($result) {
                     $this->redirect('index.php?page=admin_staff');

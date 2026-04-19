@@ -22,6 +22,13 @@
             <label for="password">Mật khẩu</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
+        <div class="form-group">
+            <label for="role">Vai trò</label>
+            <select class="form-control" id="role" name="role">
+                <option value="customer">Khách hàng (customer)</option>
+                <option value="admin">Quản trị viên (admin)</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Thêm</button>
         <a href="index.php?page=admin_staff" class="btn btn-secondary">Quay lại</a>
     </form>
